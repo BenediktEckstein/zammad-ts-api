@@ -230,13 +230,14 @@ class Ticket {
     /**
      * Push the changes of the current ticket
      * @param {ZammadApi} api Initialized API object
+     * @param {Record<string, unknown>} update Properties to update beyond current ticket properties
      * @todo fill response data in current object
      */
-    async update(api) {
+    async update(api, update) {
         let ticket = this.toApiObject();
-        let response = await api.doPutCall(
+        return await api.doPutCall(
             endpoints.TICKET_UPDATE + this.id,
-            ticket
+            {...ticket, ...update}
         );
     }
 
