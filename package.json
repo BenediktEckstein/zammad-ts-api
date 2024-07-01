@@ -1,6 +1,6 @@
 {
     "name": "zammad-ts-api",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Zammad API implementation for TS",
     "main": "index.js",
     "scripts": {
