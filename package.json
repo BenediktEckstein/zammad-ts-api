@@ -1,7 +1,7 @@
 {
-    "name": "zammad-js-api",
+    "name": "zammad-ts-api",
     "version": "0.1.4",
-    "description": "Zammad API implementation for JS",
+    "description": "Zammad API implementation for TS",
     "main": "index.js",
     "scripts": {
         "test": "jest",
@@ -10,19 +10,19 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/exanion/zammad-js-api.git"
+        "url": "git+https://github.com/BryceDalbey/zammad-ts-api.git"
     },
     "keywords": [
         "zammad",
         "ticket",
         "helpdesk"
     ],
-    "author": "Exanion UG (https://exanion.de)",
+    "author": "Bryce Dalbey",
     "license": "Apache-2.0",
     "bugs": {
-        "url": "https://github.com/exanion/zammad-js-api/issues"
+        "url": "https://github.com/BryceDalbey/zammad-js-api/issues"
     },
-    "homepage": "https://github.com/exanion/zammad-js-api#readme",
+    "homepage": "https://github.com/BryceDalbey/zammad-js-api#readme",
     "dependencies": {
         "axios": "^0.21.1",
         "axios-debug-log": "^0.8.2"
