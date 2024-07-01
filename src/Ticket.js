@@ -114,9 +114,10 @@ class Ticket {
     /**
      * Gets all tickets that the authenticated user can view
      * @param {ZammadApi} api Initialized API object
+     * @param {{page?:number, perPage?:number}} params Request options
      */
-    static async getAll(api) {
-        let response = await api.doGetCall(endpoints.TICKET_LIST);
+    static async getAll(api, params) {
+        let response = await api.doGetCallWithParams(endpoints.TICKET_LIST, params);
         if (!Array.isArray(response)) {
             throw new ApiError.UnexpectedResponse(
                 "Invalid response (not received array)",
