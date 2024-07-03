@@ -154,20 +154,22 @@ class Ticket {
         let response = await api.doGetCallWithParams(endpoints.TICKET_SEARCH, {
             [endpoints.TICKET_SEARCH_QUERY]: query,
         });
-        if (!Array.isArray(response)) {
-            throw new ApiError.UnexpectedResponse(
-                "Invalid response (not received array)",
-                "array",
-                typeof response
-            );
-        }
+        return response
 
-        let tickets = Array();
-        response.forEach(obj => {
-            tickets.push(Ticket.fromApiObject(obj));
-        });
+        // if (!Array.isArray(response)) {
+        //     throw new ApiError.UnexpectedResponse(
+        //         "Invalid response (not received array)",
+        //         "array",
+        //         typeof response
+        //     );
+        // }
 
-        return tickets;
+        // let tickets = Array();
+        // response.forEach(obj => {
+        //     tickets.push(Ticket.fromApiObject(obj));
+        // });
+
+        // return tickets;
     }
 
     /**
