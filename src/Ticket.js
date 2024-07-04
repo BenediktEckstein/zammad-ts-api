@@ -148,11 +148,13 @@ class Ticket {
     /**
      * Search for one or more tickets that match the given query
      * @param {ZammadApi} api Initialized API object
-     * @param {string} query Query string
+     * @param {{query?:string, page?:number, per_page?:number, sort_by?:string, order_by?:"asc"|"desc", expand?:boolean}}
      */
-    static async search(api, query) {
+    static async search(api, params={}) {
+        const {query, ...rest} = params
         let response = await api.doGetCallWithParams(endpoints.TICKET_SEARCH, {
             [endpoints.TICKET_SEARCH_QUERY]: query,
+            ...rest
         });
         return response
 
@@ -316,3 +318,5 @@ class Ticket {
 }
 
 module.exports = Ticket;
+
+Ticket.search({a},{query:"string", } )
