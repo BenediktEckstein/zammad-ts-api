@@ -318,5 +318,3 @@ class Ticket {
 }
 
 module.exports = Ticket;
-
-Ticket.search({a},{query:"string", } )
