@@ -16,8 +16,8 @@ export type SortParams = {
   order_by?: OrderBy | undefined;
 };
 
-export type ExpandParams = {
-  expand?: boolean | undefined;
+export type ExpandParams<T extends boolean|undefined = false> = {
+  expand?: T;
   //full [undocumented], returns {id:number, assets:{Ticket:Record<string,Ticket>, Group:Record<string,Group>, User:Record<string, User>, Role:Record<string, Role>}}
   //all [undocumented]: example value: {
     //   ticket_id: 52,

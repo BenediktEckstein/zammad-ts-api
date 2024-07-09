@@ -38,8 +38,8 @@ export const ticketSchema = z.object({
   // preferences: {}
   updated_by_id: z.number().nullable(),
   created_by_id: z.number(),
-  created_at: z.string(),
-  updated_at: z.string(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
 });
 
 export const expandedTicketSchema = ticketSchema.extend({

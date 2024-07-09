@@ -8,6 +8,7 @@ import { API_PREFIX } from "./ApiString.js";
 import { UnexpectedResponse } from "./ApiError.js";
 import { GenericParams } from "./Parameter.js";
 import TicketClient from "../Ticket/TicketClient.js";
+import { AuthParams } from "./ClientType.js";
 
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
@@ -16,25 +17,38 @@ export default class ZammadClient {
   /**
    * Connect to a zammad API
    * @param host Hostname of Zammad instance with protocol and port
-   * @param username Username for authentication
-   * @param password Password for authentication
+   * @param auth authorization credentials, token, or beare
+   * @param options client options
    * @todo hostname check and sanitising
    */
-  constructor(host: string, username: string, password: string) {
+  constructor(host: string, auth: AuthParams, {userAgent = "Zammad JS Client"}:{userAgent?:string } = {}) {
     this.host = host;
-    this.username = username;
-    this.password = password;
+
+    this.username = auth.username;
+    this.password = auth.password;
+    this.token = auth.token
+    this.bearer = auth.bearer
+
+    let authHeader:string|undefined
+    let authObj:{username:string, password:string}|undefined
+
+    if (this.token) {
+  authHeader = `Token: ${this.token}`;
+  this.authMode = "token"}
+else if (this.bearer){  authHeader = `Bearer: ${this.bearer}`; this.authMode = "bearer"}
+else if (this.username && this.password){  authObj = {
+    username:this.username, password:this.password}; this.authMode = "basic"}
+else {  
+    this.authMode = "none"}
 
     this.httpClient = Axios.create({
       baseURL: this.host + API_PREFIX,
-      auth: {
-        username,
-        password,
-      },
+      auth: authObj,
       headers: {
-        "User-Agent": "Zammad JS Client",
+        "User-Agent": userAgent,
+        "Authorization":authHeader
       },
-      validateStatus: (status) => status === 200 || status === 201, //allow through all response codes. We deal with errors in interceptors (below)
+      validateStatus: (status) => status === 200 || status === 201,
     });
 
     this.httpClient.interceptors.response.use(
@@ -53,8 +67,11 @@ export default class ZammadClient {
   }
 
   host: string;
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
+  token?:string
+  bearer?:string
+  authMode: "basic"|"token"|"bearer"|"none"
   httpClient: HttpClient;
 
   /**
@@ -63,9 +80,9 @@ export default class ZammadClient {
    * @param params associative array in form "param": "value"
    */
   async doGetCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.get(endpoint, {
+    let response = await this.httpClient.get(endpoint, 
       params,
-    });
+    );
     return response.data;
   }
 
@@ -80,7 +97,7 @@ export default class ZammadClient {
     body: HttpClientBody,
     params: GenericParams = {}
   ) {
-    let response = await this.httpClient.post(endpoint, { ...body, ...params }, params);
+    let response = await this.httpClient.post(endpoint, body, params);
     return response.data;
   }
 
@@ -95,7 +112,7 @@ export default class ZammadClient {
     body: HttpClientBody,
     params: GenericParams = {}
   ) {
-    let response = await this.httpClient.put(endpoint, {...body, ...params}, params);
+    let response = await this.httpClient.put(endpoint,body, params);
     return response.data;
   }
 

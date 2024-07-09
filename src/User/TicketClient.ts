@@ -13,7 +13,7 @@ import {
 import { ENDPOINTS, PARAMS } from "../Client/ApiString.js";
 import { UnexpectedResponse } from "../Client/ApiError.js";
 import { TicketValidator } from "./TicketValidator.js";
-import { TicketQueryParams } from "./TicketParameter.js";
+import { TicketQueryParams } from "./UserParameter.js";
 import {
   CreateTicketInput,
   ApiTicket,
