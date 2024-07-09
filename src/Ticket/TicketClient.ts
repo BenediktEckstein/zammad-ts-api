@@ -32,14 +32,13 @@ export default class TicketClient {
   /**
    * Gets all tickets that the authenticated user can view
    * @param params Request options
-   * @param expand
    */
   async getAll<T extends boolean = false >(
     params?: PaginationParams & OnBehalfParams & ExpandParams<T>
   ): Promise<T extends true ? ExpandedApiTicket[] : ApiTicket[]> {
-    let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, {
-      ...params,
-    });
+    let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, 
+      params,
+  );
 
     if (!Array.isArray(response)) {
       throw new UnexpectedResponse(

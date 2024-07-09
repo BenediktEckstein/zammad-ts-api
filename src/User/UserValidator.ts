@@ -1,12 +1,10 @@
 import { z } from "zod";
 import { makeValidator } from "../Utility/Valdation.js";
 
-export const userValidator = z.object({
+export const userSchema = z.object({
   id: z.number(),
   organization_id: z.number().nullable(),
   note: z.string(),
-  updated_by_id: z.number().nullable(),
-
   active: z.boolean(),
   login_failed: z.number(),
   verified: z.boolean(),
@@ -33,6 +31,13 @@ export const userValidator = z.object({
   out_of_office_start_at: z.string().datetime().nullable(),
   out_of_office_end_at: z.string().datetime().nullable(),
   out_of_office_replacement_id: z.number().nullable(),
+  created_by_id: z.number(),
+  created_at: z.string().datetime(),
+  updated_by_id: z.number().nullable(),
+  updated_at: z.string().datetime().nullable(),
+  role_ids: z.array(z.number()),
+  organization_ids: z.array(z.number()),
+  authorization_ids: z.array(z.number()),
   // preferences:
   // {
   //    notification_config:
@@ -116,18 +121,6 @@ export const userValidator = z.object({
   //    "tickets_closed": 0,
   //    "tickets_open": 1
   // },
-  // "created_by_id": 1,
-  // "created_at": "2021-07-26T14:44:41.066Z",
-  // "updated_at": "2021-09-23T13:17:24.825Z",
-  // "role_ids":
-  // [
-  //    1,
-  //    2
-  // ],
-  // "organization_ids":
-  // [],
-  // "authorization_ids":
-  // [],
   // "karma_user_ids":
   // [
   //    1
@@ -149,12 +142,31 @@ export const userValidator = z.object({
   // }
 });
 
+export const expandedUserSchema = userSchema.extend({
+  roles: z.array(z.string()),
+  organizations: z.array(z.string()),
+  authorizations: z.array(z.string()),
+  organization: z.string(),
+  created_by: z.string(),
+  updated_by: z.string(),
+  //  "groups":
+  //  {
+  //     "Sales":
+  //     [
+  //        "full"
+  //     ],
+  //     "2nd Level":
+  //     [
+  //        "full"
+  //     ],
+  //     "Service/Desk":
+  //     [
+  //        "full"
+  //     ]
+  //  },
+}); 
+
 export class UserValidator {
-  static validateApiUser = makeValidator(userValidator);
+  static validateApiUser = makeValidator(userSchema);
+  static validateExpandedApiUser = makeValidator(expandedUserSchema);
 }
-
-export type ApiUser = z.infer<typeof userValidator>;
-
-// export type ExpandedApiUser = z.infer<
-//   typeof UserValidator.expandedUserValidator
-// >;
