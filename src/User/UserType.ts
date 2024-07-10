@@ -6,14 +6,22 @@ export type ApiUser = z.infer<typeof userSchema>;
 
 export type ExpandedApiUser = z.infer<typeof expandedUserSchema>;
 
-// export type CreateTicketInput = {
+export type CreateTicketInput = {
 //   title: string;
 //   group_id: number;
 //   customer_id: number;
 //   owner_id?: number;
 //   mentions?: number[];
 //   article: CreateArticleViaTicketRequest;
-// };
+
+
+  "firstname": string,
+  "lastname": string,
+  "email": string,
+  "login": string,
+  "organization": string,
+  "roles": 
+}
 
 // export interface UpdateTicketInput extends ApiTicket {
 //   [key: string]: unknown;

@@ -10,7 +10,7 @@ import {
 } from "./StateType.js";
 import { StateValidator } from "./StateValidator.js";
 
-export default class TicketClient {
+export default class StateClient {
   constructor(api: ZammadClient) {
     this._api = api;
   }

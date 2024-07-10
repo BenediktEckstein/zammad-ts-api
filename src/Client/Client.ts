@@ -9,6 +9,9 @@ import { UnexpectedResponse } from "./ApiError.js";
 import { GenericParams } from "./Parameter.js";
 import TicketClient from "../Ticket/TicketClient.js";
 import { AuthParams } from "./ClientType.js";
+import UserClient from "../User/UserClient.js";
+import ArticleClient from "../Article/ArticleClient.js";
+import StateClient from "../State/StateClient.js";
 
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
@@ -64,6 +67,9 @@ else {
     );
 
     this.ticket = new TicketClient(this);
+    this.user = new UserClient(this)
+    this.article = new ArticleClient(this)
+    this.state = new StateClient(this)
   }
 
   host: string;
@@ -127,4 +133,9 @@ else {
   }
 
   ticket: TicketClient;
+  user: UserClient
+  article:ArticleClient
+  state:StateClient
+
+
 }
