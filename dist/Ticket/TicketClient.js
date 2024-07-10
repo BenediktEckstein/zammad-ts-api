@@ -13,17 +13,14 @@ export default class TicketClient {
     _val = TicketValidator;
     /**
      * Gets all tickets that the authenticated user can view
-     * @param {{page?:number, perPage?:number}} params Request options
+     * @param params Request options
      */
-    async getAll(params, expand) {
-        let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, {
-            ...params,
-            expand,
-        });
+    async getAll(params) {
+        let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
         if (!Array.isArray(response)) {
             throw new UnexpectedResponse("Invalid response (not received array)", "array", typeof response);
         }
-        if (!expand) {
+        if (!params?.expand) {
             return response.map((obj) => this._val.validateApiTicket(obj));
         }
         else {
@@ -51,27 +48,25 @@ export default class TicketClient {
             [PARAMS.TICKET_SEARCH_QUERY]: query,
             ...rest,
         });
-        return TicketValidator.validateApiTicketSearchResult(response);
+        return this._val.validateApiTicketSearchResult(response);
     }
     /**
      * Create a new ticket
      * @param obj ticket object
-  
      * @return Ticket that was created
      */
-    async create(obj, options) {
-        let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj, options);
-        if (options?.expand)
-            return this._val.validateExpandedApiTicket(res);
-        else
-            return this._val.validateApiTicket(res);
+    async create(obj) {
+        let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+        // if (options?.expand) return this._val.validateExpandedApiTicket(res);
+        // else 
+        return this._val.validateApiTicket(res);
     }
     /**
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    async update(id, update, params) {
-        const res = await this._api.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update, params);
+    async update(id, update) {
+        const res = await this._api.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
         return this._val.validateApiTicket(res);
     }
     /**
@@ -79,6 +74,12 @@ export default class TicketClient {
      * @param id of ticket to delete
      */
     async delete(id) {
-        return await this._api.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
+        await this._api.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
+        return;
     }
 }
+// const none = await new ZammadClient("a", "b", "c").ticket.getAll({});
+// const fal = await new ZammadClient("a", "b", "c").ticket.getAll({expand:false})
+// const tru = await new ZammadClient("a", "b", "c").ticket.getAll({
+//   expand: true,
+// });

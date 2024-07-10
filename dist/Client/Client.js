@@ -6,38 +6,66 @@ import Axios from "axios";
 import { API_PREFIX } from "./ApiString.js";
 import { UnexpectedResponse } from "./ApiError.js";
 import TicketClient from "../Ticket/TicketClient.js";
+import UserClient from "../User/UserClient.js";
+import ArticleClient from "../Article/ArticleClient.js";
+import StateClient from "../State/StateClient.js";
 export default class ZammadClient {
     /**
      * Connect to a zammad API
      * @param host Hostname of Zammad instance with protocol and port
-     * @param username Username for authentication
-     * @param password Password for authentication
+     * @param auth authorization credentials, token, or beare
+     * @param options client options
      * @todo hostname check and sanitising
      */
-    constructor(host, username, password) {
+    constructor(host, auth, { userAgent = "Zammad JS Client" } = {}) {
         this.host = host;
-        this.username = username;
-        this.password = password;
+        this.username = auth.username;
+        this.password = auth.password;
+        this.token = auth.token;
+        this.bearer = auth.bearer;
+        let authHeader;
+        let authObj;
+        if (this.token) {
+            authHeader = `Token: ${this.token}`;
+            this.authMode = "token";
+        }
+        else if (this.bearer) {
+            authHeader = `Bearer: ${this.bearer}`;
+            this.authMode = "bearer";
+        }
+        else if (this.username && this.password) {
+            authObj = {
+                username: this.username, password: this.password
+            };
+            this.authMode = "basic";
+        }
+        else {
+            this.authMode = "none";
+        }
         this.httpClient = Axios.create({
             baseURL: this.host + API_PREFIX,
-            auth: {
-                username,
-                password,
-            },
+            auth: authObj,
             headers: {
-                "User-Agent": "Zammad JS Client",
+                "User-Agent": userAgent,
+                "Authorization": authHeader
             },
-            validateStatus: (status) => status === 200 || status === 201, //allow through all response codes. We deal with errors in interceptors (below)
+            validateStatus: (status) => status === 200 || status === 201,
         });
         this.httpClient.interceptors.response.use((r) => r, (e) => {
             console.log(e.toJSON());
             throw new UnexpectedResponse("Unexpected response code", "200/201", e.status);
         });
         this.ticket = new TicketClient(this);
+        this.user = new UserClient(this);
+        this.article = new ArticleClient(this);
+        this.state = new StateClient(this);
     }
     host;
     username;
     password;
+    token;
+    bearer;
+    authMode;
     httpClient;
     /**
      * Perform a get call on a given endpoint, return result
@@ -45,9 +73,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doGetCall(endpoint, params = {}) {
-        let response = await this.httpClient.get(endpoint, {
-            params,
-        });
+        let response = await this.httpClient.get(endpoint, params);
         return response.data;
     }
     /**
@@ -57,7 +83,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doPostCall(endpoint, body, params = {}) {
-        let response = await this.httpClient.post(endpoint, { ...body, ...params }, params);
+        let response = await this.httpClient.post(endpoint, body, params);
         return response.data;
     }
     /**
@@ -67,7 +93,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doPutCall(endpoint, body, params = {}) {
-        let response = await this.httpClient.put(endpoint, { ...body, ...params }, params);
+        let response = await this.httpClient.put(endpoint, body, params);
         return response.data;
     }
     /**
@@ -80,4 +106,7 @@ export default class ZammadClient {
         return response.data;
     }
     ticket;
+    user;
+    article;
+    state;
 }

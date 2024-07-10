@@ -5,20 +5,29 @@
 import Axios from "axios";
 import { GenericParams } from "./Parameter.js";
 import TicketClient from "../Ticket/TicketClient.js";
+import { AuthParams } from "./ClientType.js";
+import UserClient from "../User/UserClient.js";
+import ArticleClient from "../Article/ArticleClient.js";
+import StateClient from "../State/StateClient.js";
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
 export default class ZammadClient {
     /**
      * Connect to a zammad API
      * @param host Hostname of Zammad instance with protocol and port
-     * @param username Username for authentication
-     * @param password Password for authentication
+     * @param auth authorization credentials, token, or beare
+     * @param options client options
      * @todo hostname check and sanitising
      */
-    constructor(host: string, username: string, password: string);
+    constructor(host: string, auth: AuthParams, { userAgent }?: {
+        userAgent?: string;
+    });
     host: string;
-    username: string;
-    password: string;
+    username?: string;
+    password?: string;
+    token?: string;
+    bearer?: string;
+    authMode: "basic" | "token" | "bearer" | "none";
     httpClient: HttpClient;
     /**
      * Perform a get call on a given endpoint, return result
@@ -47,6 +56,9 @@ export default class ZammadClient {
      */
     doDeleteCall(endpoint: string, params?: GenericParams): Promise<any>;
     ticket: TicketClient;
+    user: UserClient;
+    article: ArticleClient;
+    state: StateClient;
 }
 export {};
 //# sourceMappingURL=Client.d.ts.map

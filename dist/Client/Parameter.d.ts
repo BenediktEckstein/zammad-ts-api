@@ -11,8 +11,8 @@ export type SortParams = {
     sort_by?: string | undefined;
     order_by?: OrderBy | undefined;
 };
-export type ExpandParams = {
-    expand?: boolean | undefined;
+export type ExpandParams<T extends boolean | undefined = false> = {
+    expand?: T;
 };
 export {};
 //# sourceMappingURL=Parameter.d.ts.map

@@ -62,20 +62,20 @@ export default class TicketClient {
    * @param id of ticket to get
    * @param params for get endpoint
    */
-  async getById<T extends boolean>(id: number, params?: OnBehalfParams & ExpandParams<T>,): Promise<T extends true ? ExpandedApiTicket[] : ApiTicket[]>{
+  async getById<T extends boolean = false>(id: number, params?: OnBehalfParams & ExpandParams<T>,): Promise<T extends true ? ExpandedApiTicket : ApiTicket>{
     let response = await this._api.doGetCall(
       ENDPOINTS.TICKET_SHOW + id,
       params
     );
-    if (params?.expand) return this._val.validateExpandedApiTicket(response);
-    return this._val.validateApiTicket(response);
+    if (params?.expand) return this._val.validateExpandedApiTicket(response) as any
+    return this._val.validateApiTicket(response) as any
   }
 
   /**
    * Search for one or more tickets that match the given query
    * @param
    */
-  async search<T extends boolean>(
+  async search<T extends boolean = false>(
     params: PaginationParams &
       SortParams &
       // ExpandParams<T> &
@@ -88,7 +88,7 @@ export default class TicketClient {
       ...rest,
     });
 
-    return TicketValidator.validateApiTicketSearchResult(response);
+    return this._val.validateApiTicketSearchResult(response);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class TicketClient {
    * @param obj ticket object
    * @return Ticket that was created
    */
-  async create<T extends boolean>(obj: CreateTicketInput,
+  async create<T extends boolean = false>(obj: CreateTicketInput,
     //  options?: ExpandParams
     ) {
     let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
@@ -125,7 +125,8 @@ export default class TicketClient {
    * @param id of ticket to delete
    */
   async delete(id: number) {
-    return await this._api.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
+    await this._api.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
+    return
   }
 }
 

@@ -13,56 +13,9 @@ let existingTickets = [];
 beforeAll(async () => {
   existingTickets = await zammad.ticket.getAll({ per_page: 10 });
 });
-/**
- * Create a user json object with random data
- */
-function createNewTicket() {
-  const group_id = DataSeeder.randomId();
-  const priority_id = DataSeeder.randomId();
-  const state_id = DataSeeder.randomId();
-  const customer_id = DataSeeder.randomId();
-  const owner_id = DataSeeder.randomId();
-  const updatedAt = DataSeeder.randomIsoTimestamp();
-  const createdAt = DataSeeder.randomIsoTimestamp();
-
-  return {
-    id,
-    group_id,
-    priority_id,
-    state_id,
-    title:randomString(20),
-    customer_id,
-    owner_id,
-    note:randomString(50),
-    updated_at: updatedAt,
-    created_at: createdAt,
-  };
-}
-
-/**
- * Check if api ticket object matches parsed ticket
- * @param {object} apiTicket json ticket api object
- * @param {User} parsedTicket ticket parsed by the implementation
- */
-function checkIfApiTicketMatchesParsed(apiTicket, parsedTicket) {
-    expect(typeof parsedTicket).toBe("object");
-    expect(typeof apiTicket).toBe("object");
-
-    expect(parsedTicket.id).toBe(apiTicket.id);
-    expect(parsedTicket.groupId).toBe(apiTicket.group_id);
-    expect(parsedTicket.priorityId).toBe(apiTicket.priority_id);
-    expect(parsedTicket.stateId).toBe(apiTicket.state_id);
-    expect(parsedTicket.number).toBe(apiTicket.number);
-    expect(parsedTicket.title).toBe(apiTicket.title);
-    expect(parsedTicket.customerId).toBe(apiTicket.customer_id);
-    expect(parsedTicket.ownerId).toBe(apiTicket.owner_id);
-    expect(parsedTicket.note).toBe(apiTicket.note);
-    expect(parsedTicket.updatedAt).toBe(apiTicket.updated_at);
-    expect(parsedTicket.createdAt).toBe(apiTicket.created_at);
-}
 
 test("ticket list get", async () => {
-  const qty = 75; // <= 100
+  const qty = 75; // max 100
   const response = await zammad.ticket.getAll({ per_page: qty });
 
   expect(response.length).toBe(qty);
@@ -138,12 +91,11 @@ test("ticket create", async () => {
 
   const regOutput = await zammad.ticket.getById(expandOutput.id)
 
-console.log("create output", expandOutput)
-
   for (const k of ["title", "group_id", "customer_id", "owner_id"]) {
     expect(expandOutput[k]).toBe(input[k]);
   }
 
+  
   //TODO test created article
 });
 

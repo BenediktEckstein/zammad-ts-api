@@ -1,0 +1,78 @@
+import { z } from "zod";
+export declare const articleTypeSchema: z.ZodEnum<["email", "phone", "web", "note", "sms", "chat", "fax", "twitter status", "twitter direct-message", "facebook feed post", "facebook feed comment", "telegram personal-message"]>;
+export declare const articleSenderSchema: z.ZodEnum<["Agent", "Customer", "System"]>;
+export declare const articleContentTypeSchema: z.ZodEnum<["text/html", "text/plain"]>;
+export declare const articleSchema: z.ZodObject<{
+    id: z.ZodNumber;
+    ticket_id: z.ZodNumber;
+    type_id: z.ZodNumber;
+    sender_id: z.ZodNumber;
+    from: z.ZodNullable<z.ZodString>;
+    to: z.ZodNullable<z.ZodString>;
+    cc: z.ZodNullable<z.ZodString>;
+    subject: z.ZodNullable<z.ZodString>;
+    reply_to: z.ZodNullable<z.ZodString>;
+    message_id: z.ZodNullable<z.ZodNumber>;
+    content_type: z.ZodEnum<["text/html", "text/plain"]>;
+    body: z.ZodString;
+    internal: z.ZodBoolean;
+    created_by_id: z.ZodNumber;
+    created_by: z.ZodString;
+    created_at: z.ZodString;
+    updated_by_id: z.ZodNullable<z.ZodNumber>;
+    updated_by: z.ZodNullable<z.ZodString>;
+    updated_at: z.ZodString;
+    origin_by_id: z.ZodNullable<z.ZodNumber>;
+    type: z.ZodEnum<["email", "phone", "web", "note", "sms", "chat", "fax", "twitter status", "twitter direct-message", "facebook feed post", "facebook feed comment", "telegram personal-message"]>;
+    sender: z.ZodEnum<["Agent", "Customer", "System"]>;
+}, "strip", z.ZodTypeAny, {
+    id: number;
+    created_by_id: number;
+    created_at: string;
+    updated_by_id: number | null;
+    updated_at: string;
+    type: "note" | "email" | "web" | "phone" | "fax" | "sms" | "chat" | "twitter status" | "twitter direct-message" | "facebook feed post" | "facebook feed comment" | "telegram personal-message";
+    created_by: string;
+    updated_by: string | null;
+    ticket_id: number;
+    type_id: number;
+    sender_id: number;
+    from: string | null;
+    to: string | null;
+    cc: string | null;
+    subject: string | null;
+    reply_to: string | null;
+    message_id: number | null;
+    content_type: "text/html" | "text/plain";
+    body: string;
+    internal: boolean;
+    origin_by_id: number | null;
+    sender: "Agent" | "Customer" | "System";
+}, {
+    id: number;
+    created_by_id: number;
+    created_at: string;
+    updated_by_id: number | null;
+    updated_at: string;
+    type: "note" | "email" | "web" | "phone" | "fax" | "sms" | "chat" | "twitter status" | "twitter direct-message" | "facebook feed post" | "facebook feed comment" | "telegram personal-message";
+    created_by: string;
+    updated_by: string | null;
+    ticket_id: number;
+    type_id: number;
+    sender_id: number;
+    from: string | null;
+    to: string | null;
+    cc: string | null;
+    subject: string | null;
+    reply_to: string | null;
+    message_id: number | null;
+    content_type: "text/html" | "text/plain";
+    body: string;
+    internal: boolean;
+    origin_by_id: number | null;
+    sender: "Agent" | "Customer" | "System";
+}>;
+export declare class ArticleValidator {
+    static validateApiArticle: (data: any) => any;
+}
+//# sourceMappingURL=ArticleValidator.d.ts.map

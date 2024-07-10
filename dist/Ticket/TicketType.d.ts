@@ -1,4 +1,4 @@
-import { CreateArticleRequest } from "../Article/ArticleType.js";
+import { CreateArticleViaTicketRequest } from "../Article/ArticleType.js";
 import { z } from "zod";
 import { expandedTicketSchema, ticketSchema } from "./TicketValidator.js";
 export type ApiTicket = z.infer<typeof ticketSchema>;
@@ -9,7 +9,7 @@ export type CreateTicketInput = {
     customer_id: number;
     owner_id?: number;
     mentions?: number[];
-    article: CreateArticleRequest;
+    article: CreateArticleViaTicketRequest;
 };
 export interface UpdateTicketInput extends ApiTicket {
     [key: string]: unknown;

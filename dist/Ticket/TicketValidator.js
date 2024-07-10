@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { userValidator } from "../User/UserValidator.js";
+import { userSchema } from "../User/UserValidator.js";
 import { makeValidator } from "../Utility/Valdation.js";
 export const ticketSchema = z.object({
     id: z.number(),
@@ -37,8 +37,8 @@ export const ticketSchema = z.object({
     // preferences: {}
     updated_by_id: z.number().nullable(),
     created_by_id: z.number(),
-    created_at: z.string(),
-    updated_at: z.string(),
+    created_at: z.string().datetime(),
+    updated_at: z.string().datetime(),
 });
 export const expandedTicketSchema = ticketSchema.extend({
     article_ids: z.array(z.number()),
@@ -60,7 +60,7 @@ const ticketSearchSchema = z.object({
     ticket_count: z.number(),
     assets: z.object({
         Ticket: z.record(z.string(), ticketSchema),
-        User: z.record(z.string(), userValidator),
+        User: z.record(z.string(), userSchema),
         // Role
         // Group
         // Organization
