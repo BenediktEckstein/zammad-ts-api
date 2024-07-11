@@ -1,3 +1,3 @@
 import { ZodSchema } from "zod";
-export declare function makeValidator(val: ZodSchema): (data: any) => any;
+export declare function makeValidator<T>(val: ZodSchema<T>): (data: any) => T;
 //# sourceMappingURL=Valdation.d.ts.map

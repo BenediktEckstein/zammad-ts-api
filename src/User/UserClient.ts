@@ -37,11 +37,12 @@ export default class UserClient {
       );
     }
 
-    if (!params?.expand) {
-      return response.map((obj) => this._val.validateApiUser(obj));
-    } else {
-      return response.map((obj) => this._val.validateExpandedApiUser(obj));
+    if (params?.expand) {
+      const a = response.map((obj) => this._val.validateExpandedApiUser(obj))
+      return a
     }
+      return response.map((obj) => this._val.validateApiUser(obj)) as any
+    
   }
 
   /**
@@ -55,7 +56,7 @@ export default class UserClient {
   ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
     let response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
     if (params?.expand) return this._val.validateExpandedApiUser(response);
-    return this._val.validateApiUser(response);
+    return this._val.validateApiUser(response) as any
   }
 
   /**
@@ -67,7 +68,7 @@ export default class UserClient {
   ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
     let response = await this._api.doGetCall(ENDPOINTS.USER_CURRENT, params);
     if (params?.expand) return this._val.validateExpandedApiUser(response);
-    return this._val.validateApiUser(response);
+    return this._val.validateApiUser(response) as any
   }
 
   /**
@@ -87,7 +88,7 @@ export default class UserClient {
       ...rest,
     });
     if (params?.expand) return this._val.validateExpandedApiUser(response);
-    return this._val.validateApiUser(response);
+    return this._val.validateApiUser(response) as any
   }
 
   /**

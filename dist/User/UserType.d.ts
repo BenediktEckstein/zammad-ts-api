@@ -11,22 +11,22 @@ export type CreateUserInput = {
     roles?: string[];
 };
 export interface UpdateUserInput {
-    firstname: string;
-    lastname: string;
-    email: string;
-    web: string;
-    phone: string;
-    fax: string;
-    mobile: string;
-    department: string;
-    address: string;
-    street: string;
-    zip: string;
-    city: string;
-    country: string;
-    vip: boolean;
-    active: boolean;
-    note: string;
-    role_ids: number[];
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+    web?: string;
+    phone?: string;
+    fax?: string;
+    mobile?: string;
+    department?: string;
+    address?: string;
+    street?: string;
+    zip?: string;
+    city?: string;
+    country?: string;
+    vip?: boolean;
+    active?: boolean;
+    note?: string;
+    role_ids?: number[];
 }
 //# sourceMappingURL=UserType.d.ts.map

@@ -43,6 +43,20 @@ export declare const stateSchema: z.ZodObject<{
     default_follow_up: boolean;
 }>;
 export declare class StateValidator {
-    static validateApiState: (data: any) => any;
+    static validateApiState: (data: any) => {
+        id: number;
+        note: string | null;
+        active: boolean;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string;
+        state_type_id: number;
+        next_state_id: number | null;
+        name: string;
+        ignore_escalation: boolean;
+        default_create: boolean;
+        default_follow_up: boolean;
+    };
 }
 //# sourceMappingURL=StateValidator.d.ts.map

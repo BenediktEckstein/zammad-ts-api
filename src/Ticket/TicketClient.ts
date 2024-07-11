@@ -67,6 +67,7 @@ export default class TicketClient {
       ENDPOINTS.TICKET_SHOW + id,
       params
     );
+
     if (params?.expand) return this._val.validateExpandedApiTicket(response) as any
     return this._val.validateApiTicket(response) as any
   }
@@ -129,9 +130,3 @@ export default class TicketClient {
     return
   }
 }
-
-// const none = await new ZammadClient("a", "b", "c").ticket.getAll({});
-// const fal = await new ZammadClient("a", "b", "c").ticket.getAll({expand:false})
-// const tru = await new ZammadClient("a", "b", "c").ticket.getAll({
-//   expand: true,
-// });

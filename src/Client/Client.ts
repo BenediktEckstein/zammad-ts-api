@@ -54,8 +54,12 @@ else {
       validateStatus: (status) => status === 200 || status === 201,
     });
 
+    // this.httpClient.interceptors.request.use(
+    //   (r) => {console.log(r);return r},
+    // );
+
     this.httpClient.interceptors.response.use(
-      (r) => r,
+      undefined,
       (e) => {
         console.log(e.toJSON());
         throw new UnexpectedResponse(
@@ -66,6 +70,7 @@ else {
       }
     );
 
+    
     this.ticket = new TicketClient(this);
     this.user = new UserClient(this)
     this.article = new ArticleClient(this)
@@ -87,7 +92,7 @@ else {
    */
   async doGetCall(endpoint: string, params: GenericParams = {}) {
     let response = await this.httpClient.get(endpoint, 
-      params,
+      {params},
     );
     return response.data;
   }
@@ -103,7 +108,7 @@ else {
     body: HttpClientBody,
     params: GenericParams = {}
   ) {
-    let response = await this.httpClient.post(endpoint, body, params);
+    let response = await this.httpClient.post(endpoint, body, {params});
     return response.data;
   }
 
@@ -116,9 +121,9 @@ else {
   async doPutCall(
     endpoint: string,
     body: HttpClientBody,
-    params: GenericParams = {}
+    params?: GenericParams
   ) {
-    let response = await this.httpClient.put(endpoint,body, params);
+    let response = await this.httpClient.put(endpoint,body, params?{params}:undefined);
     return response.data;
   }
 
@@ -128,7 +133,7 @@ else {
    * @param params associative array in form "param": "value"
    */
   async doDeleteCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.delete(endpoint, params);
+    let response = await this.httpClient.delete(endpoint, {params});
     return response.data;
   }
 

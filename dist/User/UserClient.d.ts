@@ -32,12 +32,82 @@ export default class UserClient {
      * @param obj ticket object
      * @return Ticket that was created
      */
-    create(obj: CreateUserInput): Promise<any>;
+    create(obj: CreateUserInput): Promise<{
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+    }>;
     /**
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    update(id: number, update: UpdateUserInput): Promise<any>;
+    update(id: number, update: UpdateUserInput): Promise<{
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+    }>;
     /**
      * Delete ticket by id
      * @param id of user to delete

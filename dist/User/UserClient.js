@@ -16,12 +16,11 @@ export default class UserClient {
         if (!Array.isArray(response)) {
             throw new UnexpectedResponse("Invalid response (not received array)", "array", typeof response);
         }
-        if (!params?.expand) {
-            return response.map((obj) => this._val.validateApiUser(obj));
+        if (params?.expand) {
+            const a = response.map((obj) => this._val.validateExpandedApiUser(obj));
+            return a;
         }
-        else {
-            return response.map((obj) => this._val.validateExpandedApiUser(obj));
-        }
+        return response.map((obj) => this._val.validateApiUser(obj));
     }
     /**
      * Get a user by its id

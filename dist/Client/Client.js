@@ -51,7 +51,10 @@ export default class ZammadClient {
             },
             validateStatus: (status) => status === 200 || status === 201,
         });
-        this.httpClient.interceptors.response.use((r) => r, (e) => {
+        // this.httpClient.interceptors.request.use(
+        //   (r) => {console.log(r);return r},
+        // );
+        this.httpClient.interceptors.response.use(undefined, (e) => {
             console.log(e.toJSON());
             throw new UnexpectedResponse("Unexpected response code", "200/201", e.status);
         });
@@ -73,7 +76,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doGetCall(endpoint, params = {}) {
-        let response = await this.httpClient.get(endpoint, params);
+        let response = await this.httpClient.get(endpoint, { params });
         return response.data;
     }
     /**
@@ -83,7 +86,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doPostCall(endpoint, body, params = {}) {
-        let response = await this.httpClient.post(endpoint, body, params);
+        let response = await this.httpClient.post(endpoint, body, { params });
         return response.data;
     }
     /**
@@ -92,8 +95,8 @@ export default class ZammadClient {
      * @param body Body of the request
      * @param params associative array in form "param": "value"
      */
-    async doPutCall(endpoint, body, params = {}) {
-        let response = await this.httpClient.put(endpoint, body, params);
+    async doPutCall(endpoint, body, params) {
+        let response = await this.httpClient.put(endpoint, body, params ? { params } : undefined);
         return response.data;
     }
     /**
@@ -102,7 +105,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     async doDeleteCall(endpoint, params = {}) {
-        let response = await this.httpClient.delete(endpoint, params);
+        let response = await this.httpClient.delete(endpoint, { params });
         return response.data;
     }
     ticket;
