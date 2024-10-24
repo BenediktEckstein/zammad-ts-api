@@ -14,13 +14,13 @@ const zammad = new Client(devFqdn, {
 
 let existingTickets: ApiTicket[] = [];
 let createInput: {
-  title: "Test api ticket";
+  title: string;
   group_id: number;
   customer_id: number;
   owner_id: number;
   article: {
-    subject: "Test article";
-    body: "test article body";
+    subject: string;
+    body: string;
     type: "note";
     internal: true;
   };
@@ -34,7 +34,7 @@ beforeAll(async () => {
   const customerId = existingTickets.find((e) => e.customer_id)?.customer_id;
 
   createInput = {
-    title: "Test api ticket",
+    title: `Test api ticket ${new Date().toUTCString()}`,
     group_id: groupId ?? 1,
     customer_id: customerId ?? 1,
     owner_id: ownerId ?? 1,
@@ -65,19 +65,12 @@ test("ticket get", async () => {
   }
 });
 
-// test("ticket search", async () => {
-//   const title = `Test api ticket ${new Date().toUTCString()}`;
-
-//   const created = await zammad.ticket.create(createInput);
-//   console.log("CREATED TICKET", created);
-//   let response = await zammad.ticket.search({ query: "Test",  });
-
-//   const createdFound = response.assets.Ticket[created.id];
-//   expect(createdFound).toBeTruthy();
-// });
+test("ticket search", async () => {
+  let response = await zammad.ticket.search({ query: "Test" });
+  expect(response).toBeTruthy();
+});
 
 test("ticket create, update, and delete", async () => {
-
   const created = await zammad.ticket.create(createInput);
 
   for (const k of ["title", "group_id", "customer_id", "owner_id"] as const) {
@@ -118,5 +111,5 @@ test("ticket create, update, and delete", async () => {
   } catch (e) {
     errored = true;
   }
-  if (errored !== true) throw new Error("did not 404 on request after delete");
+  if (!errored) throw new Error("did not 404 on request after delete");
 });

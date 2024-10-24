@@ -36,24 +36,11 @@ test("user get", async () => {
   }
 });
 
-// test("user search", async () => {
-//   const title = `Test api user ${new Date().toUTCString()}`;
+test("user search", async () => {
+  let response = await zammad.user.search({ query: "Test" });
 
-//   const createInput = {
-//     firstname: "Test Creation",
-//     lastname: "Test Last Name",
-//     email: `${new Date().getTime()}1@mail.com`, //lets us create bad email?
-//   };
-
-//   const created = await zammad.user.create(createInput);
-
-//   let response = await zammad.user.search({ query: "Test" });
-
-//   console.log("User search response", response);
-
-//   // const createdFound = response.assets.User[created.id];
-//   // expect(createdFound).toBeTruthy();
-// });
+  expect(response).toBeTruthy();
+});
 
 test("user create, update, and delete", async () => {
   const createInput = {

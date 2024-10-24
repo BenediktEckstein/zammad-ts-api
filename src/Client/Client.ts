@@ -65,12 +65,13 @@ export default class ZammadClient {
       validateStatus: (status) => status === 200 || status === 201,
     });
 
-    // this.httpClient.interceptors.request.use(
-    //   (r) => {console.log(r);return r},
-    // );
+    this.httpClient.interceptors.request.use(undefined, (r) => {
+      console.log(r);
+      return r;
+    });
 
     this.httpClient.interceptors.response.use(undefined, (e) => {
-      console.log(e.toJSON());
+      // console.log(e.toJSON());
       throw new UnexpectedResponse(
         "Unexpected response code",
         "200/201",
@@ -98,7 +99,7 @@ export default class ZammadClient {
    * @param params associative array in form "param": "value"
    */
   async doGetCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.get(endpoint, { params });
+    const response = await this.httpClient.get(endpoint, { params });
     return response.data;
   }
 
@@ -113,7 +114,7 @@ export default class ZammadClient {
     body: HttpClientBody,
     params: GenericParams = {}
   ) {
-    let response = await this.httpClient.post(endpoint, body, { params });
+    const response = await this.httpClient.post(endpoint, body, { params });
     return response.data;
   }
 
@@ -128,7 +129,7 @@ export default class ZammadClient {
     body: HttpClientBody,
     params?: GenericParams
   ) {
-    let response = await this.httpClient.put(
+    const response = await this.httpClient.put(
       endpoint,
       body,
       params ? { params } : undefined
@@ -142,7 +143,7 @@ export default class ZammadClient {
    * @param params associative array in form "param": "value"
    */
   async doDeleteCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.delete(endpoint, { params });
+    const response = await this.httpClient.delete(endpoint, { params });
     return response.data;
   }
 

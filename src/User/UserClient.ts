@@ -38,10 +38,10 @@ export default class UserClient {
     }
 
     if (params?.expand) {
-      const a = response.map((obj) => this._val.validateExpandedApiUser(obj))
+      const a = response.map((obj) => this._val.apiUserExpanded(obj))
       return a
     }
-      return response.map((obj) => this._val.validateApiUser(obj)) as any
+      return response.map((obj) => this._val.apiUser(obj)) as any
     
   }
 
@@ -55,8 +55,8 @@ export default class UserClient {
     params?: OnBehalfParams & ExpandParams<T>
   ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
     let response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
-    if (params?.expand) return this._val.validateExpandedApiUser(response);
-    return this._val.validateApiUser(response) as any
+    if (params?.expand) return this._val.apiUserExpanded(response);
+    return this._val.apiUser(response) as any
   }
 
   /**
@@ -67,31 +67,31 @@ export default class UserClient {
     params?: OnBehalfParams & ExpandParams<T>
   ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
     let response = await this._api.doGetCall(ENDPOINTS.USER_CURRENT, params);
-    if (params?.expand) return this._val.validateExpandedApiUser(response);
-    return this._val.validateApiUser(response) as any
+    if (params?.expand) return this._val.apiUserExpanded(response);
+    return this._val.apiUser(response) as any
   }
 
-    //commented because not passing tests
+  //commented because not passing tests
+  /**
+   * Search for one or more users that match the given query
+   * @param
+   */
+  async search<T extends boolean = false>(
+    params: PaginationParams &
+      SortParams &
+      ExpandParams<T> &
+      OnBehalfParams &
+      UserQueryParams
+  ): Promise<T extends true ? ExpandedApiUser[] : ApiUser[]> {
+    const { query, ...rest } = params;
+    let response = await this._api.doGetCall(ENDPOINTS.USER_SEARCH, {
+      [PARAMS.USER_SEARCH_QUERY]: query,
+      ...rest,
+    });
 
-  // /**
-  //  * Search for one or more users that match the given query
-  //  * @param
-  //  */
-  // async search<T extends boolean = false>(
-  //   params: PaginationParams &
-  //     SortParams &
-  //     ExpandParams<T> &
-  //     OnBehalfParams &
-  //     UserQueryParams
-  // ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
-  //   const { query, ...rest } = params;
-  //   let response = await this._api.doGetCall(ENDPOINTS.USER_SEARCH, {
-  //     [PARAMS.USER_SEARCH_QUERY]: query,
-  //     ...rest,
-  //   });
-  //   if (params?.expand) return this._val.validateExpandedApiUser(response);
-  //   return this._val.validateApiUser(response) as any
-  // }
+    if (params?.expand) return this._val.apiUsersExtended(response);
+    return this._val.apiUsers(response) as any
+  }
 
   /**
    * Create a new user
@@ -106,7 +106,7 @@ export default class UserClient {
 
     // if (options?.expand) return this._val.validateExpandedApiTicket(res);
     // else
-    return this._val.validateApiUser(res);
+    return this._val.apiUser(res);
   }
 
   /**
@@ -119,7 +119,7 @@ export default class UserClient {
     // params: ExpandParams
   ) {
     const res = await this._api.doPutCall(ENDPOINTS.USER_UPDATE + id, update);
-    return this._val.validateApiUser(res);
+    return this._val.apiUser(res);
   }
 
   /**

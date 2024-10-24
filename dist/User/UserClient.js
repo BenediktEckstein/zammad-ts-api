@@ -1,4 +1,4 @@
-import { ENDPOINTS } from "../Client/ApiString.js";
+import { ENDPOINTS, PARAMS } from "../Client/ApiString.js";
 import { UnexpectedResponse } from "../Client/ApiError.js";
 import { UserValidator } from "./UserValidator.js";
 export default class UserClient {
@@ -17,10 +17,10 @@ export default class UserClient {
             throw new UnexpectedResponse("Invalid response (not received array)", "array", typeof response);
         }
         if (params?.expand) {
-            const a = response.map((obj) => this._val.validateExpandedApiUser(obj));
+            const a = response.map((obj) => this._val.apiUserExpanded(obj));
             return a;
         }
-        return response.map((obj) => this._val.validateApiUser(obj));
+        return response.map((obj) => this._val.apiUser(obj));
     }
     /**
      * Get a user by its id
@@ -30,8 +30,8 @@ export default class UserClient {
     async getById(id, params) {
         let response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
         if (params?.expand)
-            return this._val.validateExpandedApiUser(response);
-        return this._val.validateApiUser(response);
+            return this._val.apiUserExpanded(response);
+        return this._val.apiUser(response);
     }
     /**
      * Get a currently logged in user
@@ -40,29 +40,25 @@ export default class UserClient {
     async getMe(params) {
         let response = await this._api.doGetCall(ENDPOINTS.USER_CURRENT, params);
         if (params?.expand)
-            return this._val.validateExpandedApiUser(response);
-        return this._val.validateApiUser(response);
+            return this._val.apiUserExpanded(response);
+        return this._val.apiUser(response);
     }
     //commented because not passing tests
-    // /**
-    //  * Search for one or more users that match the given query
-    //  * @param
-    //  */
-    // async search<T extends boolean = false>(
-    //   params: PaginationParams &
-    //     SortParams &
-    //     ExpandParams<T> &
-    //     OnBehalfParams &
-    //     UserQueryParams
-    // ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
-    //   const { query, ...rest } = params;
-    //   let response = await this._api.doGetCall(ENDPOINTS.USER_SEARCH, {
-    //     [PARAMS.USER_SEARCH_QUERY]: query,
-    //     ...rest,
-    //   });
-    //   if (params?.expand) return this._val.validateExpandedApiUser(response);
-    //   return this._val.validateApiUser(response) as any
-    // }
+    /**
+     * Search for one or more users that match the given query
+     * @param
+     */
+    async search(params) {
+        const { query, ...rest } = params;
+        let response = await this._api.doGetCall(ENDPOINTS.USER_SEARCH, {
+            [PARAMS.USER_SEARCH_QUERY]: query,
+            ...rest,
+        });
+        console.log("USER RESPONSE", response);
+        if (params?.expand)
+            return this._val.apiUsersExtended(response);
+        return this._val.apiUsers(response);
+    }
     /**
      * Create a new user
      * @param obj ticket object
@@ -74,7 +70,7 @@ export default class UserClient {
         let res = await this._api.doPostCall(ENDPOINTS.USER_CREATE, obj);
         // if (options?.expand) return this._val.validateExpandedApiTicket(res);
         // else
-        return this._val.validateApiUser(res);
+        return this._val.apiUser(res);
     }
     /**
      * Push the changes of the current ticket
@@ -84,7 +80,7 @@ export default class UserClient {
     // params: ExpandParams
     ) {
         const res = await this._api.doPutCall(ENDPOINTS.USER_UPDATE + id, update);
-        return this._val.validateApiUser(res);
+        return this._val.apiUser(res);
     }
     /**
      * Delete ticket by id

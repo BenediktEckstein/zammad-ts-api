@@ -163,9 +163,11 @@ export const expandedUserSchema = userSchema.extend({
   //        "full"
   //     ]
   //  },
-}); 
+});
 
 export class UserValidator {
-  static validateApiUser = makeValidator(userSchema);
-  static validateExpandedApiUser = makeValidator(expandedUserSchema);
+  static apiUser = makeValidator(userSchema);
+  static apiUserExpanded = makeValidator(expandedUserSchema);
+  static apiUsers = makeValidator(z.array(userSchema));
+  static apiUsersExtended = makeValidator(z.array(expandedUserSchema));
 }

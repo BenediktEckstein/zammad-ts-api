@@ -19,7 +19,7 @@ export default class ArticleClient {
   private _val = ArticleValidator;
 
   /**
-   * Gets all articled that the authenticated user can view on a ticket
+   * Gets all articles that the authenticated user can view on a ticket
    * @param id id of the ticket
    * @param params Request options
    */

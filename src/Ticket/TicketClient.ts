@@ -74,26 +74,26 @@ export default class TicketClient {
     return this._val.validateApiTicket(response) as any;
   }
 
-  //commented because not passing tests
-  // /**
-  //  * Search for one or more tickets that match the given query
-  //  * @param
-  //  */
-  // async search<T extends boolean = false>(
-  //   params: PaginationParams &
-  //     SortParams &
-  //     // ExpandParams<T> &
-  //     OnBehalfParams &
-  //     TicketQueryParams
-  // ) {
-  //   const { query, ...rest } = params;
-  //   let response = await this._api.doGetCall(ENDPOINTS.TICKET_SEARCH, {
-  //     [PARAMS.TICKET_SEARCH_QUERY]: query,
-  //     ...rest,
-  //   });
+  // commented because not passing tests
+  /**
+   * Search for one or more tickets that match the given query
+   * @param
+   */
+  async search<T extends boolean = false>(
+    params: PaginationParams &
+      SortParams &
+      // ExpandParams<T> &
+      OnBehalfParams &
+      TicketQueryParams
+  ) {
+    const { query, ...rest } = params;
+    let response = await this._api.doGetCall(ENDPOINTS.TICKET_SEARCH, {
+      [PARAMS.TICKET_SEARCH_QUERY]: query,
+      ...rest,
+    });
 
-  //   return this._val.validateApiTicketSearchResult(response);
-  // }
+    return this._val.validateApiTicketSearchResult(response);
+  }
 
   /**
    * Create a new ticket

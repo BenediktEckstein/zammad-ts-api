@@ -228,7 +228,7 @@ export declare const expandedUserSchema: z.ZodObject<z.objectUtil.extendShape<{
     updated_by: string;
 }>;
 export declare class UserValidator {
-    static validateApiUser: (data: any) => {
+    static apiUser: (data: any) => {
         id: number;
         organization_id: number | null;
         note: string;
@@ -264,7 +264,7 @@ export declare class UserValidator {
         organization_ids: number[];
         authorization_ids: number[];
     };
-    static validateExpandedApiUser: (data: any) => {
+    static apiUserExpanded: (data: any) => {
         id: number;
         organization_id: number | null;
         note: string;
@@ -305,5 +305,82 @@ export declare class UserValidator {
         created_by: string;
         updated_by: string;
     };
+    static apiUsers: (data: any) => {
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+    }[];
+    static apiUsersExtended: (data: any) => {
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+        roles: string[];
+        organizations: string[];
+        authorizations: string[];
+        created_by: string;
+        updated_by: string;
+    }[];
 }
 //# sourceMappingURL=UserValidator.d.ts.map
