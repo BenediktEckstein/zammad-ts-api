@@ -7,7 +7,7 @@ import { beforeAll, test, expect } from "@jest/globals";
 const zammad = new Client(devFqdn, {
     username: devAdminUsername,
     password: devAdminPassword,
-});
+}, { Ticket: { preview: { type: "string" } } });
 let existingTickets = [];
 let createInput;
 beforeAll(async () => {

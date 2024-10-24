@@ -17,7 +17,7 @@ export default class ZammadClient {
      * @param options client options
      * @todo hostname check and sanitising
      */
-    constructor(host, auth, { userAgent = "Zammad JS Client" } = {}) {
+    constructor(host, auth, { userAgent = "Zammad JS Client", } = {}) {
         this.host = host;
         this.username = auth.username;
         this.password = auth.password;

@@ -23,7 +23,7 @@ import {
 import { Options } from "../Client/Option.js";
 
 export type TicketParameters = {
-  extensions?: Record<string, string | string[] | number | number[]>;
+  extensions?: Record<string, string |  number >;
 };
 
 export default class TicketClient<
@@ -34,7 +34,7 @@ export default class TicketClient<
   }
 
   private _api: ZammadClient;
-  private _val = TicketValidator;
+  private _val = new TicketValidator();
 
   /**
    * Gets all tickets that the authenticated user can view
@@ -47,7 +47,6 @@ export default class TicketClient<
       : ApiTicket<E extends Object ? E["extensions"] : E>[]
   >(
     params?: PaginationParams & OnBehalfParams & ExpandParams<T>,
-    opts?: Options
   ) {
     let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
 

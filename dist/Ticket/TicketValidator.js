@@ -67,7 +67,14 @@ const ticketSearchSchema = z.object({
     }),
 });
 export class TicketValidator {
-    static apiTicket = makeValidator(ticketSchema);
-    static apiTicketExpanded = makeValidator(expandedTicketSchema);
-    static apiTicketSearchResult = makeValidator(ticketSearchSchema);
+    constructor(options) {
+        this.expansions = options?.expansions;
+        this.apiTicket = makeValidator(ticketSchema);
+        this.apiTicketExpanded = makeValidator(expandedTicketSchema);
+        this.apiTicketSearchResult = makeValidator(ticketSearchSchema);
+    }
+    expansions;
+    apiTicket;
+    apiTicketExpanded;
+    apiTicketSearchResult;
 }

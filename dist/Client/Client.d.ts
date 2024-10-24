@@ -22,8 +22,13 @@ export default class ZammadClient<T extends ClientParameters = {}> {
      * @param options client options
      * @todo hostname check and sanitising
      */
-    constructor(host: string, auth: AuthParams, { userAgent }?: {
+    constructor(host: string, auth: AuthParams, { userAgent, }?: {
         userAgent?: string;
+        Ticket?: {
+            [K in keyof NonNullable<T["Ticket"]>["extensions"]]: {
+                type: NonNullable<T["Ticket"]>["extensions"][K] extends string ? "string" : "number";
+            };
+        };
     });
     host: string;
     username?: string;

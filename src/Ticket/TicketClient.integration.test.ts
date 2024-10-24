@@ -12,7 +12,7 @@ const zammad = new Client<{ Ticket: { extensions: { preview: string } } }>(
   {
     username: devAdminUsername,
     password: devAdminPassword,
-  }
+  },{Ticket:{preview:{type:"string"}}}
 );
 
 let existingTickets: ApiTicket<{ preview: string }>[] = [];

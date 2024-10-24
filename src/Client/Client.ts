@@ -29,7 +29,18 @@ export default class ZammadClient<T extends ClientParameters = {}> {
   constructor(
     host: string,
     auth: AuthParams,
-    { userAgent = "Zammad JS Client" }: { userAgent?: string } = {}
+    {
+      userAgent = "Zammad JS Client",
+    }: {
+      userAgent?: string;
+      Ticket?: {
+        [K in keyof NonNullable<T["Ticket"]>["extensions"]]: {
+          type: NonNullable<T["Ticket"]>["extensions"][K] extends string
+            ? "string"
+            : "number";
+        };
+      };
+    } = {}
   ) {
     this.host = host;
 

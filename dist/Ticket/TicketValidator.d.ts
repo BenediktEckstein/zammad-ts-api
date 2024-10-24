@@ -239,8 +239,12 @@ export declare const expandedTicketSchema: z.ZodObject<z.objectUtil.extendShape<
     create_article_sender: string | null;
     organization?: string | null | undefined;
 }>;
-export declare class TicketValidator {
-    static apiTicket: (data: any) => {
+export declare class TicketValidator<T extends Record<string, "string" | "number"> | undefined> {
+    constructor(options?: {
+        expansions?: T | undefined;
+    });
+    expansions: T | undefined;
+    apiTicket: (data: any) => {
         number: string;
         id: number;
         organization_id: number | null;
@@ -275,7 +279,7 @@ export declare class TicketValidator {
         article_count: number;
         escalation_at: string | null;
     };
-    static apiTicketExpanded: (data: any) => {
+    apiTicketExpanded: (data: any) => {
         number: string;
         id: number;
         organization_id: number | null;
@@ -321,7 +325,7 @@ export declare class TicketValidator {
         create_article_sender: string | null;
         organization?: string | null | undefined;
     };
-    static apiTicketSearchResult: (data: any) => {
+    apiTicketSearchResult: (data: any) => {
         assets: {
             Ticket?: Record<string, {
                 number: string;

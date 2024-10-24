@@ -10,12 +10,12 @@ export default class TicketClient {
         this._api = api;
     }
     _api;
-    _val = TicketValidator;
+    _val = new TicketValidator();
     /**
      * Gets all tickets that the authenticated user can view
      * @param params Request options
      */
-    async getAll(params, opts) {
+    async getAll(params) {
         let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
         if (!Array.isArray(response)) {
             throw new UnexpectedResponse("Invalid response (did not receive array)", "array", typeof response);

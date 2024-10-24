@@ -6,9 +6,8 @@ import ZammadClient from "../Client/Client.js";
 import { ExpandParams, OnBehalfParams, PaginationParams, SortParams } from "../Client/Parameter.js";
 import { TicketQueryParams } from "./TicketParameter.js";
 import { CreateTicketInput, ApiTicket, ExpandedApiTicket, UpdateTicketInput } from "./TicketType.js";
-import { Options } from "../Client/Option.js";
 export type TicketParameters = {
-    extensions?: Record<string, string | string[] | number | number[]>;
+    extensions?: Record<string, string | number>;
 };
 export default class TicketClient<E extends TicketParameters | undefined = {
     extensions: undefined;
@@ -20,7 +19,7 @@ export default class TicketClient<E extends TicketParameters | undefined = {
      * Gets all tickets that the authenticated user can view
      * @param params Request options
      */
-    getAll<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(params?: PaginationParams & OnBehalfParams & ExpandParams<T>, opts?: Options): Promise<R>;
+    getAll<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(params?: PaginationParams & OnBehalfParams & ExpandParams<T>): Promise<R>;
     /**
      * Get a ticket by its id
      * @param id of ticket to get
