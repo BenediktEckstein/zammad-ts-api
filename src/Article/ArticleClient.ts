@@ -9,7 +9,6 @@ import { UnexpectedResponse } from "../Client/ApiError.js";
 import { ArticleValidator } from "./ArticleValidator.js";
 import { CreateArticleRequest } from "./ArticleType.js";
 
-
 export default class ArticleClient {
   constructor(api: ZammadClient) {
     this._api = api;
@@ -23,7 +22,7 @@ export default class ArticleClient {
    * @param id id of the ticket
    * @param params Request options
    */
-  async getAll(
+  async getByTicketId(
     id: number,
     params?: PaginationParams & OnBehalfParams & SortParams
   ) {
@@ -40,6 +39,16 @@ export default class ArticleClient {
       );
     }
     return response.map((obj) => this._val.validateApiArticle(obj));
+  }
+
+  /**
+   * Gets all articles that the authenticated user can view on a ticket
+   * @deprecated use .getTicketById method
+   * @param id id of the ticket
+   * @param params Request options
+   */
+  async getAll(...params: Parameters<typeof this.getByTicketId>) {
+    return this.getByTicketId(...params);
   }
 
   /**
@@ -60,9 +69,7 @@ export default class ArticleClient {
    * @param obj ticket object
    * @return Ticket that was created
    */
-  async create(
-    obj: CreateArticleRequest
-  ) {
+  async create(obj: CreateArticleRequest) {
     let res = await this._api.doPostCall(ENDPOINTS.TICKET_ARTICLE_CREATE, obj);
 
     return this._val.validateApiArticle(res);
