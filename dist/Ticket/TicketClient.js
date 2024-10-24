@@ -15,16 +15,16 @@ export default class TicketClient {
      * Gets all tickets that the authenticated user can view
      * @param params Request options
      */
-    async getAll(params) {
+    async getAll(params, opts) {
         let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
         if (!Array.isArray(response)) {
             throw new UnexpectedResponse("Invalid response (did not receive array)", "array", typeof response);
         }
         if (!params?.expand) {
-            return response.map((obj) => this._val.validateApiTicket(obj));
+            return response.map((obj) => this._val.apiTicket(obj));
         }
         else {
-            return response.map((obj) => this._val.validateExpandedApiTicket(obj));
+            return response.map((obj) => this._val.apiTicketExpanded(obj));
         }
     }
     /**
@@ -35,8 +35,8 @@ export default class TicketClient {
     async getById(id, params) {
         let response = await this._api.doGetCall(ENDPOINTS.TICKET_SHOW + id, params);
         if (params?.expand)
-            return this._val.validateExpandedApiTicket(response);
-        return this._val.validateApiTicket(response);
+            return this._val.apiTicketExpanded(response);
+        return this._val.apiTicket(response);
     }
     // commented because not passing tests
     /**
@@ -49,7 +49,7 @@ export default class TicketClient {
             [PARAMS.TICKET_SEARCH_QUERY]: query,
             ...rest,
         });
-        return this._val.validateApiTicketSearchResult(response);
+        return this._val.apiTicketSearchResult(response);
     }
     /**
      * Create a new ticket
@@ -62,7 +62,7 @@ export default class TicketClient {
         let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
         // if (options?.expand) return this._val.validateExpandedApiTicket(res);
         // else
-        return this._val.validateApiTicket(res);
+        return this._val.apiTicket(res);
     }
     /**
      * Push the changes of the current ticket
@@ -72,7 +72,7 @@ export default class TicketClient {
     // params: ExpandParams
     ) {
         const res = await this._api.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
-        return this._val.validateApiTicket(res);
+        return this._val.apiTicket(res);
     }
     /**
      * Delete the current ticket on remote

@@ -59,11 +59,11 @@ export const expandedTicketSchema = ticketSchema.extend({
 });
 
 const ticketSearchSchema = z.object({
-  tickets: z.array(z.number()),
-  tickets_count: z.number(),
+  tickets: z.array(z.number()).optional(),
+  tickets_count: z.number().optional(),
   assets: z.object({
-    Ticket: z.record(z.string(), ticketSchema),
-    User: z.record(z.string(), userSchema),
+    Ticket: z.record(z.string(), ticketSchema).optional(),
+    User: z.record(z.string(), userSchema).optional(),
     // Role
     // Group
     // Organization
@@ -71,9 +71,9 @@ const ticketSearchSchema = z.object({
 });
 
 export class TicketValidator {
-  static validateApiTicket = makeValidator(ticketSchema);
+  static apiTicket = makeValidator(ticketSchema);
 
-  static validateExpandedApiTicket = makeValidator(expandedTicketSchema);
-  
-  static validateApiTicketSearchResult = makeValidator(ticketSearchSchema);
+  static apiTicketExpanded = makeValidator(expandedTicketSchema);
+
+  static apiTicketSearchResult = makeValidator(ticketSearchSchema);
 }

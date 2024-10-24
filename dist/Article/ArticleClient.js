@@ -12,12 +12,21 @@ export default class ArticleClient {
      * @param id id of the ticket
      * @param params Request options
      */
-    async getAll(id, params) {
+    async getByTicketId(id, params) {
         let response = await this._api.doGetCall(ENDPOINTS.TICKET_ARTICLE_BY_TICKET + id, params);
         if (!Array.isArray(response)) {
             throw new UnexpectedResponse("Invalid response (not received array)", "array", typeof response);
         }
         return response.map((obj) => this._val.validateApiArticle(obj));
+    }
+    /**
+     * Gets all articles that the authenticated user can view on a ticket
+     * @deprecated use .getTicketById method
+     * @param id id of the ticket
+     * @param params Request options
+     */
+    async getAll(...params) {
+        return this.getByTicketId(...params);
     }
     /**
      * Get an article by its id

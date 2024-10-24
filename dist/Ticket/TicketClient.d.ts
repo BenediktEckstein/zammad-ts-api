@@ -6,7 +6,13 @@ import ZammadClient from "../Client/Client.js";
 import { ExpandParams, OnBehalfParams, PaginationParams, SortParams } from "../Client/Parameter.js";
 import { TicketQueryParams } from "./TicketParameter.js";
 import { CreateTicketInput, ApiTicket, ExpandedApiTicket, UpdateTicketInput } from "./TicketType.js";
-export default class TicketClient {
+import { Options } from "../Client/Option.js";
+export type TicketParameters = {
+    extensions?: Record<string, string | string[] | number | number[]>;
+};
+export default class TicketClient<E extends TicketParameters | undefined = {
+    extensions: undefined;
+}> {
     constructor(api: ZammadClient);
     private _api;
     private _val;
@@ -14,22 +20,20 @@ export default class TicketClient {
      * Gets all tickets that the authenticated user can view
      * @param params Request options
      */
-    getAll<T extends boolean = false>(params?: PaginationParams & OnBehalfParams & ExpandParams<T>): Promise<T extends true ? ExpandedApiTicket[] : ApiTicket[]>;
+    getAll<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(params?: PaginationParams & OnBehalfParams & ExpandParams<T>, opts?: Options): Promise<R>;
     /**
      * Get a ticket by its id
      * @param id of ticket to get
      * @param params for get endpoint
      */
-    getById<T extends boolean = false>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<T extends true ? ExpandedApiTicket : ApiTicket>;
+    getById<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<R>;
     /**
      * Search for one or more tickets that match the given query
      * @param
      */
     search<T extends boolean = false>(params: PaginationParams & SortParams & OnBehalfParams & TicketQueryParams): Promise<{
-        tickets: number[];
-        tickets_count: number;
         assets: {
-            Ticket: Record<string, {
+            Ticket?: Record<string, {
                 number: string;
                 id: number;
                 organization_id: number | null;
@@ -63,8 +67,8 @@ export default class TicketClient {
                 create_article_sender_id: number;
                 article_count: number;
                 escalation_at: string | null;
-            }>;
-            User: Record<string, {
+            }> | undefined;
+            User?: Record<string, {
                 id: number;
                 organization_id: number | null;
                 note: string;
@@ -99,15 +103,17 @@ export default class TicketClient {
                 role_ids: number[];
                 organization_ids: number[];
                 authorization_ids: number[];
-            }>;
+            }> | undefined;
         };
+        tickets?: number[] | undefined;
+        tickets_count?: number | undefined;
     }>;
     /**
      * Create a new ticket
      * @param obj ticket object
      * @return Ticket that was created
      */
-    create<T extends boolean = false>(obj: CreateTicketInput): Promise<{
+    create<T extends boolean = false>(obj: CreateTicketInput<E extends Object ? E["extensions"] : E>): Promise<{
         number: string;
         id: number;
         organization_id: number | null;
@@ -146,7 +152,7 @@ export default class TicketClient {
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    update(id: number, update: UpdateTicketInput): Promise<{
+    update(id: number, update: UpdateTicketInput<E extends Object ? E["extensions"] : E>): Promise<{
         number: string;
         id: number;
         organization_id: number | null;

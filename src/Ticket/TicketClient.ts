@@ -20,8 +20,15 @@ import {
   ExpandedApiTicket,
   UpdateTicketInput,
 } from "./TicketType.js";
+import { Options } from "../Client/Option.js";
 
-export default class TicketClient {
+export type TicketParameters = {
+  extensions?: Record<string, string | string[] | number | number[]>;
+};
+
+export default class TicketClient<
+  E extends TicketParameters | undefined = { extensions: undefined }
+> {
   constructor(api: ZammadClient) {
     this._api = api;
   }
@@ -33,9 +40,15 @@ export default class TicketClient {
    * Gets all tickets that the authenticated user can view
    * @param params Request options
    */
-  async getAll<T extends boolean = false>(
-    params?: PaginationParams & OnBehalfParams & ExpandParams<T>
-  ): Promise<T extends true ? ExpandedApiTicket[] : ApiTicket[]> {
+  async getAll<
+    T extends boolean = false,
+    R = T extends true
+      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[]
+      : ApiTicket<E extends Object ? E["extensions"] : E>[]
+  >(
+    params?: PaginationParams & OnBehalfParams & ExpandParams<T>,
+    opts?: Options
+  ) {
     let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
 
     if (!Array.isArray(response)) {
@@ -47,11 +60,9 @@ export default class TicketClient {
     }
 
     if (!params?.expand) {
-      return response.map((obj) => this._val.validateApiTicket(obj)) as any;
+      return response.map((obj) => this._val.apiTicket(obj)) as R;
     } else {
-      return response.map((obj) =>
-        this._val.validateExpandedApiTicket(obj)
-      ) as any;
+      return response.map((obj) => this._val.apiTicketExpanded(obj)) as R;
     }
   }
 
@@ -60,18 +71,19 @@ export default class TicketClient {
    * @param id of ticket to get
    * @param params for get endpoint
    */
-  async getById<T extends boolean = false>(
-    id: number,
-    params?: OnBehalfParams & ExpandParams<T>
-  ): Promise<T extends true ? ExpandedApiTicket : ApiTicket> {
+  async getById<
+    T extends boolean = false,
+    R = T extends true
+      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[]
+      : ApiTicket<E extends Object ? E["extensions"] : E>[]
+  >(id: number, params?: OnBehalfParams & ExpandParams<T>) {
     let response = await this._api.doGetCall(
       ENDPOINTS.TICKET_SHOW + id,
       params
     );
 
-    if (params?.expand)
-      return this._val.validateExpandedApiTicket(response) as any;
-    return this._val.validateApiTicket(response) as any;
+    if (params?.expand) return this._val.apiTicketExpanded(response) as R;
+    return this._val.apiTicket(response) as R;
   }
 
   // commented because not passing tests
@@ -92,7 +104,7 @@ export default class TicketClient {
       ...rest,
     });
 
-    return this._val.validateApiTicketSearchResult(response);
+    return this._val.apiTicketSearchResult(response);
   }
 
   /**
@@ -101,14 +113,14 @@ export default class TicketClient {
    * @return Ticket that was created
    */
   async create<T extends boolean = false>(
-    obj: CreateTicketInput
+    obj: CreateTicketInput<E extends Object ? E["extensions"] : E>
     //  options?: ExpandParams
   ) {
     let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
 
     // if (options?.expand) return this._val.validateExpandedApiTicket(res);
     // else
-    return this._val.validateApiTicket(res);
+    return this._val.apiTicket(res);
   }
 
   /**
@@ -117,11 +129,11 @@ export default class TicketClient {
    */
   async update(
     id: number,
-    update: UpdateTicketInput
+    update: UpdateTicketInput<E extends Object ? E["extensions"] : E>
     // params: ExpandParams
   ) {
     const res = await this._api.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
-    return this._val.validateApiTicket(res);
+    return this._val.apiTicket(res);
   }
 
   /**

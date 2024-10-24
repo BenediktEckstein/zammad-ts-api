@@ -29,8 +29,8 @@ beforeAll(async () => {
     };
 });
 test("ticket list get", async () => {
-    await zammad.ticket.getAll();
-    await zammad.ticket.getAll({ expand: true });
+    const ticket = await zammad.ticket.getAll();
+    const exandedTicket = await zammad.ticket.getAll({ expand: true });
 });
 test("ticket get", async () => {
     expect.assertions(existingTickets.length * 2);

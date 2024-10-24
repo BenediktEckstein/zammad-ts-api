@@ -54,7 +54,6 @@ export default class UserClient {
             [PARAMS.USER_SEARCH_QUERY]: query,
             ...rest,
         });
-        console.log("USER RESPONSE", response);
         if (params?.expand)
             return this._val.apiUsersExtended(response);
         return this._val.apiUsers(response);

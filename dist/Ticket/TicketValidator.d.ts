@@ -240,7 +240,7 @@ export declare const expandedTicketSchema: z.ZodObject<z.objectUtil.extendShape<
     organization?: string | null | undefined;
 }>;
 export declare class TicketValidator {
-    static validateApiTicket: (data: any) => {
+    static apiTicket: (data: any) => {
         number: string;
         id: number;
         organization_id: number | null;
@@ -275,7 +275,7 @@ export declare class TicketValidator {
         article_count: number;
         escalation_at: string | null;
     };
-    static validateExpandedApiTicket: (data: any) => {
+    static apiTicketExpanded: (data: any) => {
         number: string;
         id: number;
         organization_id: number | null;
@@ -321,11 +321,9 @@ export declare class TicketValidator {
         create_article_sender: string | null;
         organization?: string | null | undefined;
     };
-    static validateApiTicketSearchResult: (data: any) => {
-        tickets: number[];
-        tickets_count: number;
+    static apiTicketSearchResult: (data: any) => {
         assets: {
-            Ticket: Record<string, {
+            Ticket?: Record<string, {
                 number: string;
                 id: number;
                 organization_id: number | null;
@@ -359,8 +357,8 @@ export declare class TicketValidator {
                 create_article_sender_id: number;
                 article_count: number;
                 escalation_at: string | null;
-            }>;
-            User: Record<string, {
+            }> | undefined;
+            User?: Record<string, {
                 id: number;
                 organization_id: number | null;
                 note: string;
@@ -395,8 +393,10 @@ export declare class TicketValidator {
                 role_ids: number[];
                 organization_ids: number[];
                 authorization_ids: number[];
-            }>;
+            }> | undefined;
         };
+        tickets?: number[] | undefined;
+        tickets_count?: number | undefined;
     };
 }
 //# sourceMappingURL=TicketValidator.d.ts.map

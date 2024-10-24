@@ -7,12 +7,15 @@ import { devFqdn, devAdminPassword, devAdminUsername } from "../test/api.js";
 import { beforeAll, test, expect } from "@jest/globals";
 import { ApiTicket } from "./TicketType.js";
 
-const zammad = new Client(devFqdn, {
-  username: devAdminUsername,
-  password: devAdminPassword,
-});
+const zammad = new Client<{ Ticket: { extensions: { preview: string } } }>(
+  devFqdn,
+  {
+    username: devAdminUsername,
+    password: devAdminPassword,
+  }
+);
 
-let existingTickets: ApiTicket[] = [];
+let existingTickets: ApiTicket<{ preview: string }>[] = [];
 let createInput: {
   title: string;
   group_id: number;
@@ -48,8 +51,8 @@ beforeAll(async () => {
 });
 
 test("ticket list get", async () => {
-  await zammad.ticket.getAll();
-  await zammad.ticket.getAll({ expand: true });
+ const ticket = await zammad.ticket.getAll();
+  const exandedTicket = await zammad.ticket.getAll({ expand: true });
 });
 
 test("ticket get", async () => {

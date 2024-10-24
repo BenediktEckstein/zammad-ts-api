@@ -4,14 +4,17 @@
  */
 import Axios from "axios";
 import { GenericParams } from "./Parameter.js";
-import TicketClient from "../Ticket/TicketClient.js";
+import TicketClient, { TicketParameters } from "../Ticket/TicketClient.js";
 import { AuthParams } from "./ClientType.js";
 import UserClient from "../User/UserClient.js";
 import ArticleClient from "../Article/ArticleClient.js";
 import StateClient from "../State/StateClient.js";
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
-export default class ZammadClient {
+type ClientParameters = {
+    Ticket?: TicketParameters;
+};
+export default class ZammadClient<T extends ClientParameters = {}> {
     /**
      * Connect to a zammad API
      * @param host Hostname of Zammad instance with protocol and port
@@ -55,7 +58,7 @@ export default class ZammadClient {
      * @param params associative array in form "param": "value"
      */
     doDeleteCall(endpoint: string, params?: GenericParams): Promise<any>;
-    ticket: TicketClient;
+    ticket: TicketClient<T["Ticket"]>;
     user: UserClient;
     article: ArticleClient;
     state: StateClient;
