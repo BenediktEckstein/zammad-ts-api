@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "compile": "set NODE_OPTIONS='--max-old-space-size=4096' && tsc",
+    "compile": "tsc",
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest ./dist",
     "build": "npm run compile && npm run test"
   },

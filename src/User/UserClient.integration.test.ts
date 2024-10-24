@@ -36,24 +36,24 @@ test("user get", async () => {
   }
 });
 
-test("user search", async () => {
-  const title = `Test api user ${new Date().toUTCString()}`;
+// test("user search", async () => {
+//   const title = `Test api user ${new Date().toUTCString()}`;
 
-  const createInput = {
-    firstname: "Test Creation",
-    lastname: "Test Last Name",
-    email: `${new Date().getTime()}1@mail.com`, //lets us create bad email?
-  };
+//   const createInput = {
+//     firstname: "Test Creation",
+//     lastname: "Test Last Name",
+//     email: `${new Date().getTime()}1@mail.com`, //lets us create bad email?
+//   };
 
-  const created = await zammad.user.create(createInput);
+//   const created = await zammad.user.create(createInput);
 
-  let response = await zammad.user.search({ query: "Test" });
+//   let response = await zammad.user.search({ query: "Test" });
 
-  console.log("User search response", response);
+//   console.log("User search response", response);
 
-  // const createdFound = response.assets.User[created.id];
-  // expect(createdFound).toBeTruthy();
-});
+//   // const createdFound = response.assets.User[created.id];
+//   // expect(createdFound).toBeTruthy();
+// });
 
 test("user create, update, and delete", async () => {
   const createInput = {

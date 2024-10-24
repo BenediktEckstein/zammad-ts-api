@@ -35,7 +35,8 @@ export default class ZammadClient {
         }
         else if (this.username && this.password) {
             authObj = {
-                username: this.username, password: this.password
+                username: this.username,
+                password: this.password,
             };
             this.authMode = "basic";
         }
@@ -47,7 +48,7 @@ export default class ZammadClient {
             auth: authObj,
             headers: {
                 "User-Agent": userAgent,
-                "Authorization": authHeader
+                Authorization: authHeader,
             },
             validateStatus: (status) => status === 200 || status === 201,
         });

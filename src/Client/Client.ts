@@ -24,32 +24,43 @@ export default class ZammadClient {
    * @param options client options
    * @todo hostname check and sanitising
    */
-  constructor(host: string, auth: AuthParams, {userAgent = "Zammad JS Client"}:{userAgent?:string } = {}) {
+  constructor(
+    host: string,
+    auth: AuthParams,
+    { userAgent = "Zammad JS Client" }: { userAgent?: string } = {}
+  ) {
     this.host = host;
 
     this.username = auth.username;
     this.password = auth.password;
-    this.token = auth.token
-    this.bearer = auth.bearer
+    this.token = auth.token;
+    this.bearer = auth.bearer;
 
-    let authHeader:string|undefined
-    let authObj:{username:string, password:string}|undefined
+    let authHeader: string | undefined;
+    let authObj: { username: string; password: string } | undefined;
 
     if (this.token) {
-  authHeader = `Token: ${this.token}`;
-  this.authMode = "token"}
-else if (this.bearer){  authHeader = `Bearer: ${this.bearer}`; this.authMode = "bearer"}
-else if (this.username && this.password){  authObj = {
-    username:this.username, password:this.password}; this.authMode = "basic"}
-else {  
-    this.authMode = "none"}
+      authHeader = `Token: ${this.token}`;
+      this.authMode = "token";
+    } else if (this.bearer) {
+      authHeader = `Bearer: ${this.bearer}`;
+      this.authMode = "bearer";
+    } else if (this.username && this.password) {
+      authObj = {
+        username: this.username,
+        password: this.password,
+      };
+      this.authMode = "basic";
+    } else {
+      this.authMode = "none";
+    }
 
     this.httpClient = Axios.create({
       baseURL: this.host + API_PREFIX,
       auth: authObj,
       headers: {
         "User-Agent": userAgent,
-        "Authorization":authHeader
+        Authorization: authHeader,
       },
       validateStatus: (status) => status === 200 || status === 201,
     });
@@ -58,31 +69,27 @@ else {
     //   (r) => {console.log(r);return r},
     // );
 
-    this.httpClient.interceptors.response.use(
-      undefined,
-      (e) => {
-        console.log(e.toJSON());
-        throw new UnexpectedResponse(
-          "Unexpected response code",
-          "200/201",
-          e.status
-        );
-      }
-    );
+    this.httpClient.interceptors.response.use(undefined, (e) => {
+      console.log(e.toJSON());
+      throw new UnexpectedResponse(
+        "Unexpected response code",
+        "200/201",
+        e.status
+      );
+    });
 
-    
     this.ticket = new TicketClient(this);
-    this.user = new UserClient(this)
-    this.article = new ArticleClient(this)
-    this.state = new StateClient(this)
+    this.user = new UserClient(this);
+    this.article = new ArticleClient(this);
+    this.state = new StateClient(this);
   }
 
   host: string;
   username?: string;
   password?: string;
-  token?:string
-  bearer?:string
-  authMode: "basic"|"token"|"bearer"|"none"
+  token?: string;
+  bearer?: string;
+  authMode: "basic" | "token" | "bearer" | "none";
   httpClient: HttpClient;
 
   /**
@@ -91,9 +98,7 @@ else {
    * @param params associative array in form "param": "value"
    */
   async doGetCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.get(endpoint, 
-      {params},
-    );
+    let response = await this.httpClient.get(endpoint, { params });
     return response.data;
   }
 
@@ -108,7 +113,7 @@ else {
     body: HttpClientBody,
     params: GenericParams = {}
   ) {
-    let response = await this.httpClient.post(endpoint, body, {params});
+    let response = await this.httpClient.post(endpoint, body, { params });
     return response.data;
   }
 
@@ -123,7 +128,11 @@ else {
     body: HttpClientBody,
     params?: GenericParams
   ) {
-    let response = await this.httpClient.put(endpoint,body, params?{params}:undefined);
+    let response = await this.httpClient.put(
+      endpoint,
+      body,
+      params ? { params } : undefined
+    );
     return response.data;
   }
 
@@ -133,14 +142,12 @@ else {
    * @param params associative array in form "param": "value"
    */
   async doDeleteCall(endpoint: string, params: GenericParams = {}) {
-    let response = await this.httpClient.delete(endpoint, {params});
+    let response = await this.httpClient.delete(endpoint, { params });
     return response.data;
   }
 
   ticket: TicketClient;
-  user: UserClient
-  article:ArticleClient
-  state:StateClient
-
-
+  user: UserClient;
+  article: ArticleClient;
+  state: StateClient;
 }
