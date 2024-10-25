@@ -43,7 +43,7 @@ export const articleSchema = z.object({
     type: articleTypeSchema,
     sender: articleSenderSchema,
     //       "time_unit": null
-});
+}).passthrough();
 // const ticketSearchSchema = z.object({
 //   ticket: z.array(z.number()),
 //   ticket_count: z.number(),

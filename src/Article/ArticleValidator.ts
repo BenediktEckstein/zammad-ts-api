@@ -50,7 +50,7 @@ export const articleSchema = z.object({
   sender: articleSenderSchema,
   //       "time_unit": null
 
-});
+}).passthrough()
 
 // const ticketSearchSchema = z.object({
 //   ticket: z.array(z.number()),

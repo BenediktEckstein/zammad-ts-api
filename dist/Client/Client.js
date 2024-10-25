@@ -52,10 +52,10 @@ export default class ZammadClient {
             },
             validateStatus: (status) => status === 200 || status === 201,
         });
-        this.httpClient.interceptors.request.use(undefined, (r) => {
-            console.log(r);
-            return r;
-        });
+        // this.httpClient.interceptors.request.use( (r) => {
+        //   console.log(r);
+        //   return r;
+        // });
         this.httpClient.interceptors.response.use(undefined, (e) => {
             // console.log(e.toJSON());
             throw new UnexpectedResponse("Unexpected response code", "200/201", e.status);

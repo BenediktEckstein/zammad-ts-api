@@ -34,9 +34,12 @@ export default class TicketClient {
      */
     async getById(id, params) {
         let response = await this._api.doGetCall(ENDPOINTS.TICKET_SHOW + id, params);
+        console.log("RESPONSE", response);
+        const val = this._val.apiTicket(response);
         if (params?.expand)
             return this._val.apiTicketExpanded(response);
-        return this._val.apiTicket(response);
+        console.log("VALIDATED RESPONSE", val);
+        return val;
     }
     // commented because not passing tests
     /**

@@ -88,9 +88,13 @@ export default class TicketClient<
       ENDPOINTS.TICKET_SHOW + id,
       params
     );
+console.log("RESPONSE", response)
 
+const val = this._val.apiTicket(response) as R;
     if (params?.expand) return this._val.apiTicketExpanded(response) as R;
-    return this._val.apiTicket(response) as R;
+
+    console.log("VALIDATED RESPONSE", val)
+    return val
   }
 
   // commented because not passing tests

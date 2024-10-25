@@ -140,7 +140,7 @@ export const userSchema = z.object({
   //       "full"
   //    ]
   // }
-});
+}).passthrough()
 
 export const expandedUserSchema = userSchema.extend({
   roles: z.array(z.string()),
@@ -163,7 +163,7 @@ export const expandedUserSchema = userSchema.extend({
   //        "full"
   //     ]
   //  },
-});
+}).passthrough()
 
 export class UserValidator {
   static apiUser = makeValidator(userSchema);

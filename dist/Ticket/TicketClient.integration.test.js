@@ -30,7 +30,7 @@ beforeAll(async () => {
 });
 test("ticket list get", async () => {
     const ticket = await zammad.ticket.getAll();
-    const exandedTicket = await zammad.ticket.getAll({ expand: true });
+    const expandedTicket = await zammad.ticket.getAll({ expand: true });
 });
 test("ticket get", async () => {
     expect.assertions(existingTickets.length * 2);
@@ -46,6 +46,8 @@ test("ticket get", async () => {
 test("ticket search", async () => {
     let response = await zammad.ticket.search({ query: "Test" });
     expect(response).toBeTruthy();
+    // if (response.assets?.Ticket)
+    // Object.entries(response.assets?.Ticket).map(([k, v]) => console.log(v));
 });
 test("ticket create, update, and delete", async () => {
     const created = await zammad.ticket.create(createInput);

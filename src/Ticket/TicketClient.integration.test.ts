@@ -12,7 +12,8 @@ const zammad = new Client<{ Ticket: { extensions: { preview: string } } }>(
   {
     username: devAdminUsername,
     password: devAdminPassword,
-  },{Ticket:{preview:{type:"string"}}}
+  },
+  { Ticket: { preview: { type: "string" } } }
 );
 
 let existingTickets: ApiTicket<{ preview: string }>[] = [];
@@ -51,8 +52,8 @@ beforeAll(async () => {
 });
 
 test("ticket list get", async () => {
- const ticket = await zammad.ticket.getAll();
-  const exandedTicket = await zammad.ticket.getAll({ expand: true });
+  const ticket = await zammad.ticket.getAll();
+  const expandedTicket = await zammad.ticket.getAll({ expand: true });
 });
 
 test("ticket get", async () => {
@@ -71,6 +72,9 @@ test("ticket get", async () => {
 test("ticket search", async () => {
   let response = await zammad.ticket.search({ query: "Test" });
   expect(response).toBeTruthy();
+
+  // if (response.assets?.Ticket)
+  // Object.entries(response.assets?.Ticket).map(([k, v]) => console.log(v));
 });
 
 test("ticket create, update, and delete", async () => {
