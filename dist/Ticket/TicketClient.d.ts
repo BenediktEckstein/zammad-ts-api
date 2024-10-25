@@ -25,7 +25,7 @@ export default class TicketClient<E extends TicketParameters | undefined = {
      * @param id of ticket to get
      * @param params for get endpoint
      */
-    getById<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<R>;
+    getById<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E> : ApiTicket<E extends Object ? E["extensions"] : E>>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<R>;
     /**
      * Search for one or more tickets that match the given query
      * @param
