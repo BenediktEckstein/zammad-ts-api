@@ -32,82 +32,84 @@ export default class UserClient {
      * @param obj ticket object
      * @return Ticket that was created
      */
-    create(obj: CreateUserInput): Promise<import("zod").objectInputType<{
-        id: import("zod").ZodNumber;
-        organization_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        note: import("zod").ZodString;
-        active: import("zod").ZodBoolean;
-        login_failed: import("zod").ZodNumber;
-        verified: import("zod").ZodBoolean;
-        login: import("zod").ZodString;
-        last_login: import("zod").ZodNullable<import("zod").ZodString>;
-        firstname: import("zod").ZodString;
-        lastname: import("zod").ZodString;
-        email: import("zod").ZodString;
-        image: import("zod").ZodNullable<import("zod").ZodString>;
-        web: import("zod").ZodString;
-        phone: import("zod").ZodString;
-        fax: import("zod").ZodString;
-        mobile: import("zod").ZodString;
-        department: import("zod").ZodNullable<import("zod").ZodString>;
-        street: import("zod").ZodString;
-        zip: import("zod").ZodString;
-        city: import("zod").ZodString;
-        country: import("zod").ZodString;
-        address: import("zod").ZodNullable<import("zod").ZodString>;
-        vip: import("zod").ZodBoolean;
-        out_of_office: import("zod").ZodBoolean;
-        out_of_office_start_at: import("zod").ZodNullable<import("zod").ZodString>;
-        out_of_office_end_at: import("zod").ZodNullable<import("zod").ZodString>;
-        out_of_office_replacement_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        created_by_id: import("zod").ZodNumber;
-        created_at: import("zod").ZodString;
-        updated_by_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        updated_at: import("zod").ZodNullable<import("zod").ZodString>;
-        role_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-        organization_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-        authorization_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-    }, import("zod").ZodTypeAny, "passthrough">>;
+    create(obj: CreateUserInput): Promise<{
+        [x: string]: unknown;
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+    }>;
     /**
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    update(id: number, update: UpdateUserInput): Promise<import("zod").objectInputType<{
-        id: import("zod").ZodNumber;
-        organization_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        note: import("zod").ZodString;
-        active: import("zod").ZodBoolean;
-        login_failed: import("zod").ZodNumber;
-        verified: import("zod").ZodBoolean;
-        login: import("zod").ZodString;
-        last_login: import("zod").ZodNullable<import("zod").ZodString>;
-        firstname: import("zod").ZodString;
-        lastname: import("zod").ZodString;
-        email: import("zod").ZodString;
-        image: import("zod").ZodNullable<import("zod").ZodString>;
-        web: import("zod").ZodString;
-        phone: import("zod").ZodString;
-        fax: import("zod").ZodString;
-        mobile: import("zod").ZodString;
-        department: import("zod").ZodNullable<import("zod").ZodString>;
-        street: import("zod").ZodString;
-        zip: import("zod").ZodString;
-        city: import("zod").ZodString;
-        country: import("zod").ZodString;
-        address: import("zod").ZodNullable<import("zod").ZodString>;
-        vip: import("zod").ZodBoolean;
-        out_of_office: import("zod").ZodBoolean;
-        out_of_office_start_at: import("zod").ZodNullable<import("zod").ZodString>;
-        out_of_office_end_at: import("zod").ZodNullable<import("zod").ZodString>;
-        out_of_office_replacement_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        created_by_id: import("zod").ZodNumber;
-        created_at: import("zod").ZodString;
-        updated_by_id: import("zod").ZodNullable<import("zod").ZodNumber>;
-        updated_at: import("zod").ZodNullable<import("zod").ZodString>;
-        role_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-        organization_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-        authorization_ids: import("zod").ZodArray<import("zod").ZodNumber, "many">;
-    }, import("zod").ZodTypeAny, "passthrough">>;
+    update(id: number, update: UpdateUserInput): Promise<{
+        [x: string]: unknown;
+        id: number;
+        organization_id: number | null;
+        note: string;
+        active: boolean;
+        login_failed: number;
+        verified: boolean;
+        login: string;
+        last_login: string | null;
+        firstname: string;
+        lastname: string;
+        email: string;
+        image: string | null;
+        web: string;
+        phone: string;
+        fax: string;
+        mobile: string;
+        department: string | null;
+        street: string;
+        zip: string;
+        city: string;
+        country: string;
+        address: string | null;
+        vip: boolean;
+        out_of_office: boolean;
+        out_of_office_start_at: string | null;
+        out_of_office_end_at: string | null;
+        out_of_office_replacement_id: number | null;
+        created_by_id: number;
+        created_at: string;
+        updated_by_id: number | null;
+        updated_at: string | null;
+        role_ids: number[];
+        organization_ids: number[];
+        authorization_ids: number[];
+    }>;
     /**
      * Delete ticket by id
      * @param id of user to delete

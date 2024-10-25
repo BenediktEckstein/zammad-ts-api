@@ -90,6 +90,7 @@ export class TicketValidator<
   }
 
   expansions: T | undefined;
+  
   apiTicket;
 
   apiTicketExpanded;

@@ -73,7 +73,7 @@ export declare const articleSchema: z.ZodObject<{
     sender: z.ZodEnum<["Agent", "Customer", "System"]>;
 }, z.ZodTypeAny, "passthrough">>;
 export declare class ArticleValidator {
-    static validateApiArticle: (data: any) => z.objectInputType<{
+    static validateApiArticle: (data: any) => import("../Utility/@type.js").Expand<z.objectInputType<{
         id: z.ZodNumber;
         ticket_id: z.ZodNumber;
         type_id: z.ZodNumber;
@@ -96,6 +96,6 @@ export declare class ArticleValidator {
         origin_by_id: z.ZodNullable<z.ZodNumber>;
         type: z.ZodEnum<["email", "phone", "web", "note", "sms", "chat", "fax", "twitter status", "twitter direct-message", "facebook feed post", "facebook feed comment", "telegram personal-message"]>;
         sender: z.ZodEnum<["Agent", "Customer", "System"]>;
-    }, z.ZodTypeAny, "passthrough">;
+    }, z.ZodTypeAny, "passthrough">>;
 }
 //# sourceMappingURL=ArticleValidator.d.ts.map

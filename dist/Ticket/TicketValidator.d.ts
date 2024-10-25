@@ -246,7 +246,7 @@ export declare class TicketValidator<T extends Record<string, "string" | "number
         expansions?: T | undefined;
     });
     expansions: T | undefined;
-    apiTicket: (data: any) => z.objectInputType<{
+    apiTicket: (data: any) => import("../Utility/@type.js").Expand<z.objectInputType<{
         id: z.ZodNumber;
         group_id: z.ZodNumber;
         priority_id: z.ZodNumber;
@@ -280,8 +280,8 @@ export declare class TicketValidator<T extends Record<string, "string" | "number
         created_by_id: z.ZodNumber;
         created_at: z.ZodString;
         updated_at: z.ZodString;
-    }, z.ZodTypeAny, "passthrough">;
-    apiTicketExpanded: (data: any) => z.objectInputType<z.objectUtil.extendShape<{
+    }, z.ZodTypeAny, "passthrough">>;
+    apiTicketExpanded: (data: any) => import("../Utility/@type.js").Expand<z.objectInputType<z.objectUtil.extendShape<{
         id: z.ZodNumber;
         group_id: z.ZodNumber;
         priority_id: z.ZodNumber;
@@ -327,8 +327,8 @@ export declare class TicketValidator<T extends Record<string, "string" | "number
         updated_by: z.ZodNullable<z.ZodString>;
         create_article_type: z.ZodNullable<z.ZodString>;
         create_article_sender: z.ZodNullable<z.ZodString>;
-    }>, z.ZodTypeAny, "passthrough">;
-    apiTicketSearchResult: (data: any) => z.objectInputType<{
+    }>, z.ZodTypeAny, "passthrough">>;
+    apiTicketSearchResult: (data: any) => import("../Utility/@type.js").Expand<z.objectInputType<{
         tickets: z.ZodOptional<z.ZodArray<z.ZodNumber, "many">>;
         tickets_count: z.ZodOptional<z.ZodNumber>;
         assets: z.ZodObject<{
@@ -962,6 +962,6 @@ export declare class TicketValidator<T extends Record<string, "string" | "number
                 authorization_ids: z.ZodArray<z.ZodNumber, "many">;
             }, z.ZodTypeAny, "passthrough">>>>;
         }, z.ZodTypeAny, "passthrough">>;
-    }, z.ZodTypeAny, "passthrough">;
+    }, z.ZodTypeAny, "passthrough">>;
 }
 //# sourceMappingURL=TicketValidator.d.ts.map

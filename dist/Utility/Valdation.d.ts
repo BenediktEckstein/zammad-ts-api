@@ -1,3 +1,4 @@
 import { ZodSchema } from "zod";
-export declare function makeValidator<T>(val: ZodSchema<T>): (data: any) => T;
+import { Expand } from "./@type.js";
+export declare function makeValidator<T>(schema: ZodSchema<T>): (data: any) => Expand<T>;
 //# sourceMappingURL=Valdation.d.ts.map
