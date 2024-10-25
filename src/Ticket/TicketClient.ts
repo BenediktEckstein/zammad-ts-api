@@ -20,11 +20,21 @@ import {
   ExpandedApiTicket,
   UpdateTicketInput,
 } from "./TicketType.js";
-import { Options } from "../Client/Option.js";
+import { Expand } from "../Utility/@type.js";
 
 export type TicketParameters = {
-  extensions?: Record<string, string |  number >;
+  extensions?: Record<string, string | number>;
 };
+
+type GetAllParams<T extends boolean> = Expand<
+  PaginationParams & OnBehalfParams & ExpandParams<T>
+>;
+type GetByIdParams<T extends boolean> = Expand<
+  OnBehalfParams & ExpandParams<T>
+>;
+type SearchParams = Expand<
+  PaginationParams & SortParams & OnBehalfParams & TicketQueryParams
+>;
 
 export default class TicketClient<
   E extends TicketParameters | undefined = { extensions: undefined }
@@ -45,9 +55,7 @@ export default class TicketClient<
     R = T extends true
       ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[]
       : ApiTicket<E extends Object ? E["extensions"] : E>[]
-  >(
-    params?: PaginationParams & OnBehalfParams & ExpandParams<T>,
-  ) {
+  >(params?: GetAllParams<T>) {
     let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
 
     if (!Array.isArray(response)) {
@@ -75,7 +83,7 @@ export default class TicketClient<
     R = T extends true
       ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>
       : ApiTicket<E extends Object ? E["extensions"] : E>
-  >(id: number, params?: OnBehalfParams & ExpandParams<T>) {
+  >(id: number, params?: GetByIdParams<T>) {
     let response = await this._api.doGetCall(
       ENDPOINTS.TICKET_SHOW + id,
       params
@@ -90,13 +98,7 @@ export default class TicketClient<
    * Search for one or more tickets that match the given query
    * @param
    */
-  async search<T extends boolean = false>(
-    params: PaginationParams &
-      SortParams &
-      // ExpandParams<T> &
-      OnBehalfParams &
-      TicketQueryParams
-  ) {
+  async search<T extends boolean = false>(params: SearchParams) {
     const { query, ...rest } = params;
     let response = await this._api.doGetCall(ENDPOINTS.TICKET_SEARCH, {
       [PARAMS.TICKET_SEARCH_QUERY]: query,

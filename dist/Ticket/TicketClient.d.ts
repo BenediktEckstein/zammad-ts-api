@@ -6,9 +6,13 @@ import ZammadClient from "../Client/Client.js";
 import { ExpandParams, OnBehalfParams, PaginationParams, SortParams } from "../Client/Parameter.js";
 import { TicketQueryParams } from "./TicketParameter.js";
 import { CreateTicketInput, ApiTicket, ExpandedApiTicket, UpdateTicketInput } from "./TicketType.js";
+import { Expand } from "../Utility/@type.js";
 export type TicketParameters = {
     extensions?: Record<string, string | number>;
 };
+type GetAllParams<T extends boolean> = Expand<PaginationParams & OnBehalfParams & ExpandParams<T>>;
+type GetByIdParams<T extends boolean> = Expand<OnBehalfParams & ExpandParams<T>>;
+type SearchParams = Expand<PaginationParams & SortParams & OnBehalfParams & TicketQueryParams>;
 export default class TicketClient<E extends TicketParameters | undefined = {
     extensions: undefined;
 }> {
@@ -19,18 +23,18 @@ export default class TicketClient<E extends TicketParameters | undefined = {
      * Gets all tickets that the authenticated user can view
      * @param params Request options
      */
-    getAll<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(params?: PaginationParams & OnBehalfParams & ExpandParams<T>): Promise<R>;
+    getAll<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[] : ApiTicket<E extends Object ? E["extensions"] : E>[]>(params?: GetAllParams<T>): Promise<R>;
     /**
      * Get a ticket by its id
      * @param id of ticket to get
      * @param params for get endpoint
      */
-    getById<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E> : ApiTicket<E extends Object ? E["extensions"] : E>>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<R>;
+    getById<T extends boolean = false, R = T extends true ? ExpandedApiTicket<E extends Object ? E["extensions"] : E> : ApiTicket<E extends Object ? E["extensions"] : E>>(id: number, params?: GetByIdParams<T>): Promise<R>;
     /**
      * Search for one or more tickets that match the given query
      * @param
      */
-    search<T extends boolean = false>(params: PaginationParams & SortParams & OnBehalfParams & TicketQueryParams): Promise<{
+    search<T extends boolean = false>(params: SearchParams): Promise<{
         assets: {
             Ticket?: Record<string, {
                 number: string;
@@ -192,4 +196,5 @@ export default class TicketClient<E extends TicketParameters | undefined = {
      */
     delete(id: number): Promise<void>;
 }
+export {};
 //# sourceMappingURL=TicketClient.d.ts.map
