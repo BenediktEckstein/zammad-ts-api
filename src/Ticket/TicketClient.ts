@@ -39,11 +39,11 @@ type SearchParams = Expand<
 export default class TicketClient<
   E extends TicketParameters | undefined = { extensions: undefined }
 > {
-  constructor(api: ZammadClient) {
-    this._api = api;
+  constructor(client: ZammadClient) {
+    this._client = client;
   }
 
-  private _api: ZammadClient;
+  private _client: ZammadClient;
   private _val = new TicketValidator();
 
   /**
@@ -56,7 +56,7 @@ export default class TicketClient<
       ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[]
       : ApiTicket<E extends Object ? E["extensions"] : E>[]
   >(params?: GetAllParams<T>) {
-    let response = await this._api.doGetCall(ENDPOINTS.TICKET_LIST, params);
+    let response = await this._client.doGetCall(ENDPOINTS.TICKET_LIST, params);
 
     if (!Array.isArray(response)) {
       throw new UnexpectedResponse(
@@ -81,13 +81,26 @@ export default class TicketClient<
   async getById<
     T extends boolean = false,
     R = T extends true
-      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>
-      : ApiTicket<E extends Object ? E["extensions"] : E>
+      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E> | null
+      : ApiTicket<E extends Object ? E["extensions"] : E> | null
   >(id: number, params?: GetByIdParams<T>) {
-    let response = await this._api.doGetCall(
-      ENDPOINTS.TICKET_SHOW + id,
-      params
-    );
+    let response: unknown;
+    try {
+      response = await this._client.doGetCall(
+        ENDPOINTS.TICKET_SHOW + id,
+        params
+      );
+    } catch (e) {
+      if (
+        e instanceof Object &&
+        "response" in e &&
+        e.response instanceof Object &&
+        "status" in e.response &&
+        e.response.status === 404
+      ) {
+        return null;
+      }
+    }
 
     if (params?.expand) return this._val.apiTicketExpanded(response) as R;
 
@@ -101,7 +114,7 @@ export default class TicketClient<
    */
   async search<T extends boolean = false>(params: SearchParams) {
     const { query, ...rest } = params;
-    let response = await this._api.doGetCall(ENDPOINTS.TICKET_SEARCH, {
+    let response = await this._client.doGetCall(ENDPOINTS.TICKET_SEARCH, {
       [PARAMS.TICKET_SEARCH_QUERY]: query,
       ...rest,
     });
@@ -118,7 +131,7 @@ export default class TicketClient<
     obj: CreateTicketInput<E extends Object ? E["extensions"] : E>
     //  options?: ExpandParams
   ) {
-    let res = await this._api.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+    let res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
 
     // if (options?.expand) return this._val.validateExpandedApiTicket(res);
     // else
@@ -134,7 +147,10 @@ export default class TicketClient<
     update: UpdateTicketInput<E extends Object ? E["extensions"] : E>
     // params: ExpandParams
   ) {
-    const res = await this._api.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
+    const res = await this._client.doPutCall(
+      ENDPOINTS.TICKET_UPDATE + id,
+      update
+    );
     return this._val.apiTicket(res);
   }
 
@@ -143,7 +159,7 @@ export default class TicketClient<
    * @param id of ticket to delete
    */
   async delete(id: number) {
-    await this._api.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
+    await this._client.doDeleteCall(ENDPOINTS.TICKET_DELETE + id);
     return;
   }
 }

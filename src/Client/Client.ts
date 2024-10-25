@@ -75,7 +75,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
         "User-Agent": userAgent,
         Authorization: authHeader,
       },
-      validateStatus: (status) => status === 200 || status === 201,
+      validateStatus: (status) => [200, 201].includes(status),
     });
 
     // this.httpClient.interceptors.request.use( (r) => {
@@ -83,14 +83,21 @@ export default class ZammadClient<T extends ClientParameters = {}> {
     //   return r;
     // });
 
-    this.httpClient.interceptors.response.use(undefined, (e) => {
-      // console.log(e.toJSON());
-      throw new UnexpectedResponse(
-        "Unexpected response code",
-        "200/201",
-        e.status
-      );
-    });
+    // this.httpClient.interceptors.response.use(
+    //   undefined,
+    //   // (C) => {
+    //   //   console.log("SUCCESS RESPONSE", C);
+    //   //   return C;
+    //   // },
+    //   (e) => {
+    //     // console.log(e.toJSON());
+    //     throw new UnexpectedResponse(
+    //       "Unexpected response code",
+    //       "200/201",
+    //       e.status
+    //     );
+    //   }
+    // );
 
     this.ticket = new TicketClient(this);
     this.user = new UserClient(this);

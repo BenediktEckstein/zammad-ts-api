@@ -8,9 +8,13 @@ import {
 import { ENDPOINTS, PARAMS } from "../Client/ApiString.js";
 import { UnexpectedResponse } from "../Client/ApiError.js";
 import { UserValidator } from "./UserValidator.js";
-import { ApiUser, CreateUserInput, ExpandedApiUser, UpdateUserInput } from "./UserType.js";
+import {
+  ApiUser,
+  CreateUserInput,
+  ExpandedApiUser,
+  UpdateUserInput,
+} from "./UserType.js";
 import { UserQueryParams } from "./UserParameter.js";
-
 
 export default class UserClient {
   constructor(api: ZammadClient) {
@@ -38,11 +42,10 @@ export default class UserClient {
     }
 
     if (params?.expand) {
-      const a = response.map((obj) => this._val.apiUserExpanded(obj))
-      return a
+      const a = response.map((obj) => this._val.apiUserExpanded(obj));
+      return a;
     }
-      return response.map((obj) => this._val.apiUser(obj)) as any
-    
+    return response.map((obj) => this._val.apiUser(obj)) as any;
   }
 
   /**
@@ -53,10 +56,24 @@ export default class UserClient {
   async getById<T extends boolean = false>(
     id: number,
     params?: OnBehalfParams & ExpandParams<T>
-  ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
-    let response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
+  ): Promise<T extends true ? ExpandedApiUser | null : ApiUser | null> {
+    let response: unknown;
+    try {
+      response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
+    } catch (e) {
+      if (
+        e instanceof Object &&
+        "response" in e &&
+        e.response instanceof Object &&
+        "status" in e.response &&
+        e.response.status === 404
+      ) {
+        return null;
+      }
+    }
+
     if (params?.expand) return this._val.apiUserExpanded(response);
-    return this._val.apiUser(response) as any
+    return this._val.apiUser(response) as any;
   }
 
   /**
@@ -68,7 +85,7 @@ export default class UserClient {
   ): Promise<T extends true ? ExpandedApiUser : ApiUser> {
     let response = await this._api.doGetCall(ENDPOINTS.USER_CURRENT, params);
     if (params?.expand) return this._val.apiUserExpanded(response);
-    return this._val.apiUser(response) as any
+    return this._val.apiUser(response) as any;
   }
 
   //commented because not passing tests
@@ -90,7 +107,7 @@ export default class UserClient {
     });
 
     if (params?.expand) return this._val.apiUsersExtended(response);
-    return this._val.apiUsers(response) as any
+    return this._val.apiUsers(response) as any;
   }
 
   /**
@@ -128,6 +145,6 @@ export default class UserClient {
    */
   async delete(id: number) {
     await this._api.doDeleteCall(ENDPOINTS.USER_DELETE + id);
-    return
+    return;
   }
 }

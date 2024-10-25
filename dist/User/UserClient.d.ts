@@ -16,7 +16,7 @@ export default class UserClient {
      * @param id of ticket to get
      * @param params for get endpoint
      */
-    getById<T extends boolean = false>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<T extends true ? ExpandedApiUser : ApiUser>;
+    getById<T extends boolean = false>(id: number, params?: OnBehalfParams & ExpandParams<T>): Promise<T extends true ? ExpandedApiUser | null : ApiUser | null>;
     /**
      * Get a currently logged in user
      * @param params for get endpoint

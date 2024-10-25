@@ -4,7 +4,6 @@
  */
 import Axios from "axios";
 import { API_PREFIX } from "./ApiString.js";
-import { UnexpectedResponse } from "./ApiError.js";
 import TicketClient from "../Ticket/TicketClient.js";
 import UserClient from "../User/UserClient.js";
 import ArticleClient from "../Article/ArticleClient.js";
@@ -50,16 +49,27 @@ export default class ZammadClient {
                 "User-Agent": userAgent,
                 Authorization: authHeader,
             },
-            validateStatus: (status) => status === 200 || status === 201,
+            validateStatus: (status) => [200, 201].includes(status),
         });
         // this.httpClient.interceptors.request.use( (r) => {
         //   console.log(r);
         //   return r;
         // });
-        this.httpClient.interceptors.response.use(undefined, (e) => {
-            // console.log(e.toJSON());
-            throw new UnexpectedResponse("Unexpected response code", "200/201", e.status);
-        });
+        // this.httpClient.interceptors.response.use(
+        //   undefined,
+        //   // (C) => {
+        //   //   console.log("SUCCESS RESPONSE", C);
+        //   //   return C;
+        //   // },
+        //   (e) => {
+        //     // console.log(e.toJSON());
+        //     throw new UnexpectedResponse(
+        //       "Unexpected response code",
+        //       "200/201",
+        //       e.status
+        //     );
+        //   }
+        // );
         this.ticket = new TicketClient(this);
         this.user = new UserClient(this);
         this.article = new ArticleClient(this);

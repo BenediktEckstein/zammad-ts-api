@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import Client from "../Client/Client.js";
 import { devFqdn, devAdminPassword, devAdminUsername } from "../test/api.js";
 import { beforeAll, test, expect } from "@jest/globals";
@@ -55,13 +52,6 @@ test("user create, update, and delete", async () => {
             expect(updated[k]).toBe(created[k]);
     }
     await zammad.user.delete(updated.id);
-    let errored = false;
-    try {
-        await zammad.user.getById(updated.id);
-    }
-    catch (e) {
-        errored = true;
-    }
-    if (errored !== true)
-        throw new Error("did not 404 on request after delete");
+    const deleted = await zammad.user.getById(updated.id);
+    expect(deleted).toBeNull();
 });

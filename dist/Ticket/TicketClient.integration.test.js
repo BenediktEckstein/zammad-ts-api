@@ -43,6 +43,18 @@ test("ticket get", async () => {
         expect(expandedTicket).toBeTruthy();
     }
 });
+test("ticket get nonexistent", async () => {
+    expect.assertions(4);
+    for (const t of [1, 2]) {
+        //known non-existent tickets
+        const ticket = await zammad.ticket.getById(t);
+        const expandedTicket = await zammad.ticket.getById(t, {
+            expand: true,
+        });
+        expect(ticket).toBeNull();
+        expect(expandedTicket).toBeNull();
+    }
+});
 test("ticket search", async () => {
     let response = await zammad.ticket.search({ query: "Test" });
     expect(response).toBeTruthy();
@@ -72,13 +84,6 @@ test("ticket create, update, and delete", async () => {
             expect(updated[k]).toBe(created[k]);
     }
     await zammad.ticket.delete(updated.id);
-    let errored = false;
-    try {
-        await zammad.ticket.getById(updated.id);
-    }
-    catch (e) {
-        errored = true;
-    }
-    if (!errored)
-        throw new Error("did not 404 on request after delete");
+    const deleted = await zammad.ticket.getById(updated.id);
+    expect(deleted).toBeNull();
 });

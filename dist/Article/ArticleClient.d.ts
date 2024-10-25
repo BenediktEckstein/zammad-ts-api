@@ -95,7 +95,7 @@ export default class ArticleClient {
         internal: boolean;
         origin_by_id: number | null;
         sender: "Agent" | "Customer" | "System";
-    }>;
+    } | null>;
     /**
      * Create a new ticket
      * @param obj ticket object

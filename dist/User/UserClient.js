@@ -28,7 +28,19 @@ export default class UserClient {
      * @param params for get endpoint
      */
     async getById(id, params) {
-        let response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
+        let response;
+        try {
+            response = await this._api.doGetCall(ENDPOINTS.USER_SHOW + id, params);
+        }
+        catch (e) {
+            if (e instanceof Object &&
+                "response" in e &&
+                e.response instanceof Object &&
+                "status" in e.response &&
+                e.response.status === 404) {
+                return null;
+            }
+        }
         if (params?.expand)
             return this._val.apiUserExpanded(response);
         return this._val.apiUser(response);

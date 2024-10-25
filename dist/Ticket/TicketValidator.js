@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { userSchema } from "../User/UserValidator.js";
 import { makeValidator } from "../Utility/Valdation.js";
-export const ticketSchema = z
+const basicTicketSchema = z
     .object({
     id: z.number(),
     group_id: z.number(),
@@ -40,9 +40,10 @@ export const ticketSchema = z
     created_by_id: z.number(),
     created_at: z.string().datetime(),
     updated_at: z.string().datetime(),
-})
+});
+export const ticketSchema = basicTicketSchema
     .passthrough();
-export const expandedTicketSchema = ticketSchema
+export const expandedTicketSchema = basicTicketSchema
     .extend({
     article_ids: z.array(z.number()),
     //   // ticket_time_accounting_ids: [],
@@ -63,13 +64,15 @@ const ticketSearchSchema = z
     .object({
     tickets: z.array(z.number()).optional(),
     tickets_count: z.number().optional(),
-    assets: z.object({
-        Ticket: z.record(z.string(), ticketSchema).optional(),
+    assets: z
+        .object({
+        Ticket: z.record(z.string(), basicTicketSchema).optional(),
         User: z.record(z.string(), userSchema).optional(),
         // Role
         // Group
         // Organization
-    }).passthrough(),
+    })
+        .passthrough(),
 })
     .passthrough();
 export class TicketValidator {

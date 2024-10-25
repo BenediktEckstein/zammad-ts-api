@@ -34,7 +34,19 @@ export default class ArticleClient {
      * @param params for get endpoint
      */
     async getById(id, params) {
-        let response = await this._api.doGetCall(ENDPOINTS.TICKET_ARTICLE_SHOW + id, params);
+        let response;
+        try {
+            response = await this._api.doGetCall(ENDPOINTS.TICKET_ARTICLE_SHOW + id, params);
+        }
+        catch (e) {
+            if (e instanceof Object &&
+                "response" in e &&
+                e.response instanceof Object &&
+                "status" in e.response &&
+                e.response.status === 404) {
+                return null;
+            }
+        }
         return this._val.validateApiArticle(response);
     }
     /**
