@@ -8,7 +8,7 @@ export type ArticleType = z.infer<typeof articleTypeSchema>
 
 export type ArticleSender = z.infer<typeof articleSenderSchema>
 
-export type ArticleContent = z.infer<typeof articleContentTypeSchema>
+export type ArticleContentType = z.infer<typeof articleContentTypeSchema>
 
 export type CreateArticleViaTicketRequest = {
   subject: string;
@@ -24,7 +24,7 @@ export type CreateArticleRequest = {
    subject: string,
    body: string,
    sender?:ArticleSender,
-   content_type: ArticleContent,
+   content_type: ArticleContentType,
    type: ArticleType,
    internal: boolean,
    attachments?:CreateAttachmentViaArticle[]
