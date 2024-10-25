@@ -73,8 +73,8 @@ export default class TicketClient<
   async getById<
     T extends boolean = false,
     R = T extends true
-      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>[]
-      : ApiTicket<E extends Object ? E["extensions"] : E>[]
+      ? ExpandedApiTicket<E extends Object ? E["extensions"] : E>
+      : ApiTicket<E extends Object ? E["extensions"] : E>
   >(id: number, params?: OnBehalfParams & ExpandParams<T>) {
     let response = await this._api.doGetCall(
       ENDPOINTS.TICKET_SHOW + id,
