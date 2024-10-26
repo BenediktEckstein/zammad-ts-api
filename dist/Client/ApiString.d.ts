@@ -34,5 +34,6 @@ export declare const ENDPOINTS: {
     readonly TICKET_ARTICLE_BY_TICKET: "/ticket_articles/by_ticket/";
     readonly TICKET_ARTICLE_SHOW: "/ticket_articles/";
     readonly TICKET_ARTICLE_CREATE: "/ticket_articles";
+    readonly TICKET_OVERVIEWS: "/ticket_overviews";
 };
 //# sourceMappingURL=ApiString.d.ts.map

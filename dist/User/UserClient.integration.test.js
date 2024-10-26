@@ -10,8 +10,8 @@ beforeAll(async () => {
     existingUsers = await zammad.user.getAll({ per_page: 10 });
 });
 test("user list get", async () => {
-    await zammad.user.getAll();
-    await zammad.user.getAll({ expand: true });
+    await zammad.user.getAll({ per_page: 5 });
+    await zammad.user.getAll({ expand: true, per_page: 5 });
 });
 test("user get", async () => {
     expect.assertions(existingUsers.length * 2);

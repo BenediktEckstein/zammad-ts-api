@@ -8,6 +8,7 @@ import TicketClient from "../Ticket/TicketClient.js";
 import UserClient from "../User/UserClient.js";
 import ArticleClient from "../Article/ArticleClient.js";
 import StateClient from "../State/StateClient.js";
+import TicketOverviewClient from "../TicketOverview/TicketOverviewClient.js";
 export default class ZammadClient {
     /**
      * Connect to a zammad API
@@ -71,6 +72,7 @@ export default class ZammadClient {
         //   }
         // );
         this.ticket = new TicketClient(this);
+        this.ticketOverview = new TicketOverviewClient(this);
         this.user = new UserClient(this);
         this.article = new ArticleClient(this);
         this.state = new StateClient(this);
@@ -121,6 +123,7 @@ export default class ZammadClient {
         return response.data;
     }
     ticket;
+    ticketOverview;
     user;
     article;
     state;

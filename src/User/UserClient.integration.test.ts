@@ -15,8 +15,8 @@ beforeAll(async () => {
 });
 
 test("user list get", async () => {
-  await zammad.user.getAll();
-  await zammad.user.getAll({ expand: true });
+  await zammad.user.getAll({per_page:5});
+  await zammad.user.getAll({ expand: true , per_page:5});
 });
 
 test("user get", async () => {

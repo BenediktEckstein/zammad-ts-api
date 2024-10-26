@@ -12,6 +12,7 @@ import { AuthParams } from "./ClientType.js";
 import UserClient from "../User/UserClient.js";
 import ArticleClient from "../Article/ArticleClient.js";
 import StateClient from "../State/StateClient.js";
+import TicketOverviewClient from "../TicketOverview/TicketOverviewClient.js";
 
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
@@ -100,6 +101,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
     // );
 
     this.ticket = new TicketClient(this);
+    this.ticketOverview = new TicketOverviewClient(this);
     this.user = new UserClient(this);
     this.article = new ArticleClient(this);
     this.state = new StateClient(this);
@@ -168,6 +170,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
   }
 
   ticket: TicketClient<T["Ticket"]>;
+  ticketOverview: TicketOverviewClient;
   user: UserClient;
   article: ArticleClient;
   state: StateClient;

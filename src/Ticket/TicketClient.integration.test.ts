@@ -64,6 +64,7 @@ test("ticket get", async () => {
     const expandedTicket = await zammad.ticket.getById(t.id, {
       expand: true,
     });
+
     expect(ticket).toBeTruthy();
     expect(expandedTicket).toBeTruthy();
   }
@@ -78,6 +79,7 @@ test("ticket get nonexistent", async () => {
     const expandedTicket = await zammad.ticket.getById(t, {
       expand: true,
     });
+
     expect(ticket).toBeNull();
     expect(expandedTicket).toBeNull();
   }

@@ -34,4 +34,5 @@ export const ENDPOINTS = {
     TICKET_ARTICLE_BY_TICKET: "/ticket_articles/by_ticket/",
     TICKET_ARTICLE_SHOW: "/ticket_articles/",
     TICKET_ARTICLE_CREATE: "/ticket_articles",
+    TICKET_OVERVIEWS: "/ticket_overviews"
 };

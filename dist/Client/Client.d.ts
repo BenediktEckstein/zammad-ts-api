@@ -9,6 +9,7 @@ import { AuthParams } from "./ClientType.js";
 import UserClient from "../User/UserClient.js";
 import ArticleClient from "../Article/ArticleClient.js";
 import StateClient from "../State/StateClient.js";
+import TicketOverviewClient from "../TicketOverview/TicketOverviewClient.js";
 export type HttpClient = ReturnType<typeof Axios.create>;
 type HttpClientBody = object;
 type ClientParameters = {
@@ -64,6 +65,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
      */
     doDeleteCall(endpoint: string, params?: GenericParams): Promise<any>;
     ticket: TicketClient<T["Ticket"]>;
+    ticketOverview: TicketOverviewClient;
     user: UserClient;
     article: ArticleClient;
     state: StateClient;
