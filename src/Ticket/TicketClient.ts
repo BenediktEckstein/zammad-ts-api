@@ -127,31 +127,45 @@ export default class TicketClient<
    * @param obj ticket object
    * @return Ticket that was created
    */
-  async create<T extends boolean = false>(
+  async create<R = ApiTicket<E extends Object ? E["extensions"] : E>>(
     obj: CreateTicketInput<E extends Object ? E["extensions"] : E>
     //  options?: ExpandParams
   ) {
-    let res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+    let res;
 
-    // if (options?.expand) return this._val.validateExpandedApiTicket(res);
-    // else
-    return this._val.apiTicket(res);
+    res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+
+    if (!(res instanceof Object)) {
+      throw new Error("Ticket creation failed, null returned");
+    }
+
+    return this._val.apiTicket(res) as R;
   }
 
   /**
    * Push the changes of the current ticket
    * @param {} update Properties to update, can include properties no on api ticket object
    */
-  async update(
+  async update<R = ApiTicket<E extends Object ? E["extensions"] : E> | null>(
     id: number,
     update: UpdateTicketInput<E extends Object ? E["extensions"] : E>
-    // params: ExpandParams
   ) {
-    const res = await this._client.doPutCall(
-      ENDPOINTS.TICKET_UPDATE + id,
-      update
-    );
-    return this._val.apiTicket(res);
+    let res;
+    try {
+      res = await this._client.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
+    } catch (e) {
+      if (
+        e instanceof Object &&
+        "response" in e &&
+        e.response instanceof Object &&
+        "status" in e.response &&
+        e.response.status === 404
+      ) {
+        return null;
+      }
+    }
+
+    return this._val.apiTicket(res) as R;
   }
 
   /**

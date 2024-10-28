@@ -71,19 +71,31 @@ export default class TicketClient {
     async create(obj
     //  options?: ExpandParams
     ) {
-        let res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
-        // if (options?.expand) return this._val.validateExpandedApiTicket(res);
-        // else
+        let res;
+        res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+        if (!(res instanceof Object)) {
+            throw new Error("Ticket creation failed, null returned");
+        }
         return this._val.apiTicket(res);
     }
     /**
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    async update(id, update
-    // params: ExpandParams
-    ) {
-        const res = await this._client.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
+    async update(id, update) {
+        let res;
+        try {
+            res = await this._client.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
+        }
+        catch (e) {
+            if (e instanceof Object &&
+                "response" in e &&
+                e.response instanceof Object &&
+                "status" in e.response &&
+                e.response.status === 404) {
+                return null;
+            }
+        }
         return this._val.apiTicket(res);
     }
     /**

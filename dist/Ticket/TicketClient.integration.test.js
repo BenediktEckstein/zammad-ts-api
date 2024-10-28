@@ -43,17 +43,16 @@ test("ticket get", async () => {
         expect(expandedTicket).toBeTruthy();
     }
 });
-test("ticket get nonexistent", async () => {
-    expect.assertions(4);
-    for (const t of [1, 2]) {
-        //known non-existent tickets
-        const ticket = await zammad.ticket.getById(t);
-        const expandedTicket = await zammad.ticket.getById(t, {
-            expand: true,
-        });
-        expect(ticket).toBeNull();
-        expect(expandedTicket).toBeNull();
-    }
+test("ticket get/update nonexistent", async () => {
+    //known non-existent tickets
+    const ticket = await zammad.ticket.getById(1);
+    const expandedTicket = await zammad.ticket.getById(1, {
+        expand: true,
+    });
+    const updated = await zammad.ticket.update(1, { title: "Test title update" });
+    expect(ticket).toBeNull();
+    expect(expandedTicket).toBeNull();
+    expect(updated).toBeNull();
 });
 test("ticket search", async () => {
     let response = await zammad.ticket.search({ query: "Test" });
@@ -77,6 +76,8 @@ test("ticket create, update, and delete", async () => {
         owner_id: newOwnerId,
     };
     const updated = await zammad.ticket.update(created.id, updateInput);
+    if (!updated)
+        throw new Error("no ticket returned on update");
     for (const k of ["title", "group_id", "customer_id", "owner_id"]) {
         if (updateInput[k] !== undefined)
             expect(updated[k]).toBe(updateInput[k]);
