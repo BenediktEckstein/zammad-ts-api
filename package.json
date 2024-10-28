@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "test": "node --experimental-vm-modules ./node_modules/.bin/jest ./dist",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest --runInBand ./dist",
     "build": "npm run compile && npm run test"
   },
   "repository": {

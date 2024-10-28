@@ -27,7 +27,7 @@ export declare class UnexpectedData extends ApiError {
      * @param received Data type/ data that was actually received
      */
     constructor(message: string, received: unknown);
-    received: string;
+    received: string | null;
 }
 export declare class InvalidRequest extends ApiError {
     /**

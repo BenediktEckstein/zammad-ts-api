@@ -122,7 +122,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
    */
   async doGetCall(endpoint: string, params: GenericParams = {}) {
     const response = await this.httpClient.get(endpoint, { params });
-    return response.data;
+    return response.data as unknown
   }
 
   /**
@@ -137,7 +137,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
     params: GenericParams = {}
   ) {
     const response = await this.httpClient.post(endpoint, body, { params });
-    return response.data;
+    return response.data as unknown
   }
 
   /**
@@ -156,7 +156,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
       body,
       params ? { params } : undefined
     );
-    return response.data;
+    return response.data as unknown
   }
 
   /**
@@ -166,7 +166,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
    */
   async doDeleteCall(endpoint: string, params: GenericParams = {}) {
     const response = await this.httpClient.delete(endpoint, { params });
-    return response.data;
+    return response.data as unknown
   }
 
   ticket: TicketClient<T["Ticket"]>;

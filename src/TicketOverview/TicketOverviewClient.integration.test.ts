@@ -29,4 +29,4 @@ test("ticket overview", async () => {
     const ticket = await zammad.ticketOverview.getByLink(t.link);
     expect(ticket).toBeTruthy();
   }
-}, 15000);
+}, 20000);

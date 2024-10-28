@@ -44,15 +44,21 @@ test("ticket get", async () => {
     }
 });
 test("ticket get/update nonexistent", async () => {
+    expect.assertions(3);
     //known non-existent tickets
     const ticket = await zammad.ticket.getById(1);
     const expandedTicket = await zammad.ticket.getById(1, {
         expand: true,
     });
-    const updated = await zammad.ticket.update(1, { title: "Test title update" });
+    try {
+        const a = await zammad.ticket.update(1, { title: "Test title update" });
+        console.log("UPDATE RETURN", a);
+    }
+    catch (e) {
+        expect(e).toBeTruthy();
+    }
     expect(ticket).toBeNull();
     expect(expandedTicket).toBeNull();
-    expect(updated).toBeNull();
 });
 test("ticket search", async () => {
     let response = await zammad.ticket.search({ query: "Test" });

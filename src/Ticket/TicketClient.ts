@@ -131,9 +131,7 @@ export default class TicketClient<
     obj: CreateTicketInput<E extends Object ? E["extensions"] : E>
     //  options?: ExpandParams
   ) {
-    let res;
-
-    res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
+    const res = await this._client.doPostCall(ENDPOINTS.TICKET_CREATE, obj);
 
     if (!(res instanceof Object)) {
       throw new Error("Ticket creation failed, null returned");
@@ -146,24 +144,22 @@ export default class TicketClient<
    * Push the changes of the current ticket
    * @param {} update Properties to update, can include properties no on api ticket object
    */
-  async update<R = ApiTicket<E extends Object ? E["extensions"] : E> | null>(
+  async update<R = ApiTicket<E extends Object ? E["extensions"] : E>>(
     id: number,
     update: UpdateTicketInput<E extends Object ? E["extensions"] : E>
   ) {
-    let res;
-    try {
-      res = await this._client.doPutCall(ENDPOINTS.TICKET_UPDATE + id, update);
-    } catch (e) {
-      if (
-        e instanceof Object &&
-        "response" in e &&
-        e.response instanceof Object &&
-        "status" in e.response &&
-        e.response.status === 404
-      ) {
-        return null;
-      }
+    const res = await this._client.doPutCall(
+      ENDPOINTS.TICKET_UPDATE + id,
+      update
+    );
+
+    console.log("UPDATE: ", id,  " | ", res)
+
+    if (!(res instanceof Object)) {
+      throw new Error("Ticket update failed, null returned");
     }
+
+    console.log("passed null check")
 
     return this._val.apiTicket(res) as R;
   }

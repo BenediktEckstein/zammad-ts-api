@@ -43,27 +43,27 @@ export default class ZammadClient<T extends ClientParameters = {}> {
      * @param endpoint Endpoint to call
      * @param params associative array in form "param": "value"
      */
-    doGetCall(endpoint: string, params?: GenericParams): Promise<any>;
+    doGetCall(endpoint: string, params?: GenericParams): Promise<unknown>;
     /**
      * Perform a post call on a given endpoint, return result
      * @param endpoint Endpoint to call
      * @param body Body of the request
      * @param params associative array in form "param": "value"
      */
-    doPostCall(endpoint: string, body: HttpClientBody, params?: GenericParams): Promise<any>;
+    doPostCall(endpoint: string, body: HttpClientBody, params?: GenericParams): Promise<unknown>;
     /**
      * Perform a put call on a given endpoint, return result
      * @param endpoint Endpoint to call
      * @param body Body of the request
      * @param params associative array in form "param": "value"
      */
-    doPutCall(endpoint: string, body: HttpClientBody, params?: GenericParams): Promise<any>;
+    doPutCall(endpoint: string, body: HttpClientBody, params?: GenericParams): Promise<unknown>;
     /**
      * Perform a delete call on a given endpoint, return result
      * @param endpoint Endpoint to call
      * @param params associative array in form "param": "value"
      */
-    doDeleteCall(endpoint: string, params?: GenericParams): Promise<any>;
+    doDeleteCall(endpoint: string, params?: GenericParams): Promise<unknown>;
     ticket: TicketClient<T["Ticket"]>;
     ticketOverview: TicketOverviewClient;
     user: UserClient;

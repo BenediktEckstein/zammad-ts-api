@@ -21,7 +21,11 @@ export class UnexpectedResponse extends ApiError {
    * @param expected Data type/ data that was expected to be received
    * @param received Data type/ data that was actually received
    */
-  constructor(message: string, expected: string|number, received: string|number) {
+  constructor(
+    message: string,
+    expected: string | number,
+    received: string | number
+  ) {
     super(`[UnexpectedResponse] ${message}`);
     this.name = "ZammadApiError.UnexpectedResponse";
 
@@ -29,10 +33,9 @@ export class UnexpectedResponse extends ApiError {
     this.received = received;
   }
 
-  expected: string|number
-  received: string|number
+  expected: string | number;
+  received: string | number;
 }
-
 
 export class UnexpectedData extends ApiError {
   /**
@@ -44,10 +47,16 @@ export class UnexpectedData extends ApiError {
     super(`[UnexpectedData] ${message}`);
     this.name = "ZammadApiError.UnexpectedData";
 
-    this.received = JSON.stringify(received);
+    if (
+      received instanceof Object &&
+      "data" in received &&
+      received.data instanceof Object
+    ) {
+      this.received = JSON.stringify(received.data);
+    }
   }
 
-  received: string
+  received: string | null = null;
 }
 
 export class InvalidRequest extends ApiError {
@@ -65,7 +74,7 @@ export class Unimplemented extends ApiError {
   /**
    * Instantiate a new Unimplemented error object
    */
-  constructor(message:string) {
+  constructor(message: string) {
     super(`[Unimplemented] ${message}`);
     this.name = "ZammadApiError.Unimplemented";
   }

@@ -37,9 +37,13 @@ export class UnexpectedData extends ApiError {
     constructor(message, received) {
         super(`[UnexpectedData] ${message}`);
         this.name = "ZammadApiError.UnexpectedData";
-        this.received = JSON.stringify(received);
+        if (received instanceof Object &&
+            "data" in received &&
+            received.data instanceof Object) {
+            this.received = JSON.stringify(received.data);
+        }
     }
-    received;
+    received = null;
 }
 export class InvalidRequest extends ApiError {
     /**
