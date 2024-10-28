@@ -124,7 +124,7 @@ export default class TicketClient<E extends TicketParameters | undefined = {
      * Push the changes of the current ticket
      * @param {} update Properties to update, can include properties no on api ticket object
      */
-    update<R = ApiTicket<E extends Object ? E["extensions"] : E> | null>(id: number, update: UpdateTicketInput<E extends Object ? E["extensions"] : E>): Promise<R>;
+    update<R = ApiTicket<E extends Object ? E["extensions"] : E>>(id: number, update: UpdateTicketInput<E extends Object ? E["extensions"] : E>): Promise<R>;
     /**
      * Delete the current ticket on remote
      * @param id of ticket to delete
