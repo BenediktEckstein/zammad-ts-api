@@ -54,7 +54,7 @@ export default class ZammadClient<T extends ClientParameters = {}> {
     let authObj: { username: string; password: string } | undefined;
 
     if (this.token) {
-      authHeader = `Token: ${this.token}`;
+      authHeader = `Token ${this.token}`;
       this.authMode = "token";
     } else if (this.bearer) {
       authHeader = `Bearer: ${this.bearer}`;
