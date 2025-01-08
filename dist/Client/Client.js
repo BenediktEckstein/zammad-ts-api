@@ -26,7 +26,7 @@ export default class ZammadClient {
         let authHeader;
         let authObj;
         if (this.token) {
-            authHeader = `Token: ${this.token}`;
+            authHeader = `Token ${this.token}`;
             this.authMode = "token";
         }
         else if (this.bearer) {

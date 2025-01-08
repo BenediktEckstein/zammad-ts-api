@@ -14,9 +14,9 @@ export const articleTypeSchema = z.enum(["email"
   , "facebook feed comment"
   , "telegram personal-message"])
 
-  export const articleSenderSchema = z.enum(["Agent","Customer","System"])
+export const articleSenderSchema = z.enum(["Agent", "Customer", "System"])
 
-export const articleContentTypeSchema = z.enum(["text/html","text/plain"])
+export const articleContentTypeSchema = z.enum(["text/html", "text/plain"])
 
 export const articleSchema = z.object({
   id: z.number(),
@@ -28,7 +28,7 @@ export const articleSchema = z.object({
   cc: z.string().nullable(),
   subject: z.string().nullable(),
   reply_to: z.string().nullable(),
-  message_id: z.number().nullable(),
+  message_id: z.string().nullable(),
   //       "message_id_md5": null,
   //       "in_reply_to": null,
   content_type: articleContentTypeSchema,

@@ -24,7 +24,7 @@ export const articleSchema = z.object({
     cc: z.string().nullable(),
     subject: z.string().nullable(),
     reply_to: z.string().nullable(),
-    message_id: z.number().nullable(),
+    message_id: z.string().nullable(),
     //       "message_id_md5": null,
     //       "in_reply_to": null,
     content_type: articleContentTypeSchema,

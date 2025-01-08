@@ -12,7 +12,7 @@ export declare const articleSchema: z.ZodObject<{
     cc: z.ZodNullable<z.ZodString>;
     subject: z.ZodNullable<z.ZodString>;
     reply_to: z.ZodNullable<z.ZodString>;
-    message_id: z.ZodNullable<z.ZodNumber>;
+    message_id: z.ZodNullable<z.ZodString>;
     content_type: z.ZodEnum<["text/html", "text/plain"]>;
     body: z.ZodString;
     internal: z.ZodBoolean;
@@ -35,7 +35,7 @@ export declare const articleSchema: z.ZodObject<{
     cc: z.ZodNullable<z.ZodString>;
     subject: z.ZodNullable<z.ZodString>;
     reply_to: z.ZodNullable<z.ZodString>;
-    message_id: z.ZodNullable<z.ZodNumber>;
+    message_id: z.ZodNullable<z.ZodString>;
     content_type: z.ZodEnum<["text/html", "text/plain"]>;
     body: z.ZodString;
     internal: z.ZodBoolean;
@@ -58,7 +58,7 @@ export declare const articleSchema: z.ZodObject<{
     cc: z.ZodNullable<z.ZodString>;
     subject: z.ZodNullable<z.ZodString>;
     reply_to: z.ZodNullable<z.ZodString>;
-    message_id: z.ZodNullable<z.ZodNumber>;
+    message_id: z.ZodNullable<z.ZodString>;
     content_type: z.ZodEnum<["text/html", "text/plain"]>;
     body: z.ZodString;
     internal: z.ZodBoolean;
@@ -83,7 +83,7 @@ export declare class ArticleValidator {
         cc: z.ZodNullable<z.ZodString>;
         subject: z.ZodNullable<z.ZodString>;
         reply_to: z.ZodNullable<z.ZodString>;
-        message_id: z.ZodNullable<z.ZodNumber>;
+        message_id: z.ZodNullable<z.ZodString>;
         content_type: z.ZodEnum<["text/html", "text/plain"]>;
         body: z.ZodString;
         internal: z.ZodBoolean;

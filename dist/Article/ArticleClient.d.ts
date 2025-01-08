@@ -28,7 +28,7 @@ export default class ArticleClient {
         cc: string | null;
         subject: string | null;
         reply_to: string | null;
-        message_id: number | null;
+        message_id: string | null;
         content_type: "text/html" | "text/plain";
         body: string;
         internal: boolean;
@@ -59,7 +59,7 @@ export default class ArticleClient {
         cc: string | null;
         subject: string | null;
         reply_to: string | null;
-        message_id: number | null;
+        message_id: string | null;
         content_type: "text/html" | "text/plain";
         body: string;
         internal: boolean;
@@ -89,7 +89,7 @@ export default class ArticleClient {
         cc: string | null;
         subject: string | null;
         reply_to: string | null;
-        message_id: number | null;
+        message_id: string | null;
         content_type: "text/html" | "text/plain";
         body: string;
         internal: boolean;
@@ -119,7 +119,7 @@ export default class ArticleClient {
         cc: string | null;
         subject: string | null;
         reply_to: string | null;
-        message_id: number | null;
+        message_id: string | null;
         content_type: "text/html" | "text/plain";
         body: string;
         internal: boolean;
