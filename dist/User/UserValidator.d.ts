@@ -143,7 +143,7 @@ export declare const expandedUserSchema: z.ZodObject<z.objectUtil.extendShape<{
 }, {
     roles: z.ZodArray<z.ZodString, "many">;
     organizations: z.ZodArray<z.ZodString, "many">;
-    authorizations: z.ZodArray<z.ZodString, "many">;
+    authorizations: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     created_by: z.ZodString;
     updated_by: z.ZodString;
 }>, "passthrough", z.ZodTypeAny, z.objectOutputType<z.objectUtil.extendShape<{
@@ -184,7 +184,7 @@ export declare const expandedUserSchema: z.ZodObject<z.objectUtil.extendShape<{
 }, {
     roles: z.ZodArray<z.ZodString, "many">;
     organizations: z.ZodArray<z.ZodString, "many">;
-    authorizations: z.ZodArray<z.ZodString, "many">;
+    authorizations: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     created_by: z.ZodString;
     updated_by: z.ZodString;
 }>, z.ZodTypeAny, "passthrough">, z.objectInputType<z.objectUtil.extendShape<{
@@ -225,7 +225,7 @@ export declare const expandedUserSchema: z.ZodObject<z.objectUtil.extendShape<{
 }, {
     roles: z.ZodArray<z.ZodString, "many">;
     organizations: z.ZodArray<z.ZodString, "many">;
-    authorizations: z.ZodArray<z.ZodString, "many">;
+    authorizations: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     created_by: z.ZodString;
     updated_by: z.ZodString;
 }>, z.ZodTypeAny, "passthrough">>;
@@ -304,7 +304,7 @@ export declare class UserValidator {
     }, {
         roles: z.ZodArray<z.ZodString, "many">;
         organizations: z.ZodArray<z.ZodString, "many">;
-        authorizations: z.ZodArray<z.ZodString, "many">;
+        authorizations: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
         created_by: z.ZodString;
         updated_by: z.ZodString;
     }>, z.ZodTypeAny, "passthrough">>;
@@ -382,7 +382,7 @@ export declare class UserValidator {
     }, {
         roles: z.ZodArray<z.ZodString, "many">;
         organizations: z.ZodArray<z.ZodString, "many">;
-        authorizations: z.ZodArray<z.ZodString, "many">;
+        authorizations: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
         created_by: z.ZodString;
         updated_by: z.ZodString;
     }>, z.ZodTypeAny, "passthrough">[]>;

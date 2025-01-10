@@ -143,7 +143,7 @@ export const userSchema = z.object({
 export const expandedUserSchema = userSchema.extend({
     roles: z.array(z.string()),
     organizations: z.array(z.string()),
-    authorizations: z.array(z.string()),
+    authorizations: z.array(z.string()).optional(),
     created_by: z.string(),
     updated_by: z.string(),
     //  "groups":
